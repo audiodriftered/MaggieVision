@@ -1,0 +1,56 @@
+name: .NET 10 Windows UI CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/windows/**'
+      - 'tests/unit/windows/**'
+  push:
+    branches: [main]
+    paths:
+      - 'src/windows/**'
+      - 'tests/unit/windows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Restore, build and test WinUI shell
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: src/windows
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install SDK pinned by src/windows/global.json
+        uses: actions/setup-dotnet@v6.1.0 # immutable release; Node 24
+        with:
+          global-json-file: src/windows/global.json
+
+      - name: Verify pinned SDK
+        run: |
+          dotnet --info
+          dotnet --list-sdks
+          $sdk = dotnet --version
+          if ($sdk -ne '10.0.404') {
+            throw "Expected .NET SDK 10.0.404 from src/windows/global.json; found $sdk"
+          }
+
+      - name: Restore locked dependencies
+        run: dotnet restore .\MaggieVision.Windows.slnx --locked-mode --runtime win-x64
+
+      - name: Build Release with warnings as errors
+        run: dotnet build .\MaggieVision.Windows.slnx --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+
+      - name: Run navigation unit tests
+        run: dotnet test .\MaggieVision.Windows.slnx --configuration Release --no-build --no-restore --logger "console;verbosity=normal"
