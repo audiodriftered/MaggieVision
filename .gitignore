@@ -1,0 +1,51 @@
+# Credentials, signing keys and local configuration
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.pem
+*.p8
+*.key
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
+secrets.json
+local.properties
+# Prototype imports / generated reports (keep local, not source control)
+/recovery/incoming/
+/recovery/reports/
+*.zip
+*.7z
+*.rar
+*.exe
+*.msi
+*.msix
+*.apk
+*.aab
+*.ipa
+*.dmg
+*.iso
+*.log
+*.tmp
+*.bak
+# Build outputs
+**/bin/
+**/obj/
+**/build/
+.vs/
+.gradle/
+.idea/
+DerivedData/
+*.user
+*.suo
+*.iml
+__pycache__/
+*.pyc
+Thumbs.db
+.DS_Store
+# Media/cache
+/media/
+/libraries/
+/cache/
