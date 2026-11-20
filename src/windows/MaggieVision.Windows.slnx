@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../../tests/unit/windows/MaggieVision.Windows.Navigation.Tests/MaggieVision.Windows.Navigation.Tests.csproj" />
+  <Project Path="MaggieVision.Windows.Navigation/MaggieVision.Windows.Navigation.csproj" />
+  <Project Path="MaggieVision.Windows/MaggieVision.Windows.csproj" />
+</Solution>
