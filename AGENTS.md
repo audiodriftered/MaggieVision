@@ -13,14 +13,14 @@
 
 ## Security and review rules (20 November Claude reconciliation)
 
-- The Founder alone approves business scope, release go/no-go, exceptions touching original media/ACLs, external spend (default **£0**) and final merge.
+- The Founder alone approves business scope, release go/no-go, exceptions touching original media/ACLs, external spend (default **£0**), standing Routine merge delegation and release approval.
 - The VCTO owns bounded tasks and ADRs. Codex uses an isolated branch and a **task-path write allowlist**, submits PRs, cannot directly update canonical `main` or governing documents.
 - Codex may create `tests/unit/<component>/` but must never write `tests/conformance/`, security fixtures, `contracts/`, `.github/` or governing docs without a separately authorised review. A separate session/role writes black-box independent tests; CODEOWNERS alone is not access enforcement.
-- Verify actual private-repo GitHub ruleset support; otherwise use a Codex-only fork/remote with **no credentials capable of updating canonical main**. Founder merges after review.
+- Verify actual private-repo GitHub ruleset support; otherwise use a Codex-only fork/remote with **no credentials capable of updating canonical main**. authorised VCTO/automation merges Routine PRs after real build/test CI and review; Boundary PRs additionally require independent verification and any Material/Reserved Founder approval.
 - For WP-01a: `src/host/` and `tests/unit/host/` only; QA-001 and deny-all are expected, QA-003 remains **NOT STARTED**. WP-01b: real ADR-authenticated approval and revocation tested by an independent verifier; no stub can pass QA-003.
 - Host identity ADR precedes device approval; least-privilege service/SMB access feasibility precedes any ACL exception; identity/sync merge policy precedes schema design. Permissions always host authoritative.
 - Run S-01/S-02/S-04 as bounded proof tasks with no unapproved spend. One writer at a time for auth/API schema/migrations/player core. Red-team review for changes affecting auth, ACLs, crypto, downloads, migrations and installer.
-- Routine loop: task brief → agent PR+CI evidence → independent security/conformance verification when needed → VCTO acceptance → Founder merge. G0–G5 are release gates, not per-PR red tape.
+- Routine loop: task brief → agent PR+CI evidence → independent security/conformance verification when needed → VCTO acceptance → delegated Routine merge; security Boundary and Reserved changes require their stronger approvals. G0–G5 are release gates, not per-PR red tape.
 - Anywhere is independently gated; failing its own tests cannot delay a ready Music/Video release.
 
 ## Human-engineer readability and handover (Founder direction, 20 Nov 2026)
@@ -34,3 +34,5 @@ Every substantive production-code PR must be independently understandable to an 
 - A substantial change is not ready for VCTO acceptance if a qualified engineer cannot reproduce the build/tests and explain its interactions from code plus checked-in docs. If documentation is absent or outdated, mark the handover condition **NOT MET**.
 
 The maintained index is `docs/engineering/Human_CTO_Handover.md`. It must state clearly what has **actually** been implemented and independently verified, versus future design.
+
+**Merge classification (DEC-2026-11-20-005):** Routine reviewed PRs with real required CI green may be merged by VCTO/authorised automation without Founder involvement. Codex never self-merges. Changes touching protected governance, tests/thresholds, CI/workflows, auth, crypto, ACLs, installers, downloads, migrations, source integrity or release are Boundary and require heightened independent verification and applicable Founder approval. A documentation-only CI result is not a .NET build pass.

@@ -8,7 +8,7 @@ Codex and all coding subagents implement **bounded, Founder-authorised** tasks i
 
 ## Credentials, paths and secrets
 
-Codex must operate under its own minimally privileged identity and isolated working branch or fork, with no credential capable of writing canonical `main`, changing workflows, accessing sensitive Actions secrets, or directly merging. If private-repo branch/path protection is unavailable, use a separate remote/fork plus Founder-controlled PR merge. The task filesystem allowlist must be enforced by the runner/sandbox where feasible, not just described in a prompt. User media and protected fixtures remain read-only.
+Codex must operate under its own minimally privileged identity and isolated working branch or fork, with no credential capable of writing canonical `main`, changing workflows, accessing sensitive Actions secrets, or directly merging. If private-repo branch/path protection is unavailable, use a separate remote/fork plus reviewed PR merge by the delegated VCTO/automation for Routine changes. The task filesystem allowlist must be enforced by the runner/sandbox where feasible, not just described in a prompt. User media and protected fixtures remain read-only.
 
 Protected: Product Bible, `AGENTS.md`, both charters, `.github/`, versioned contracts, independent `tests/conformance/`, acceptance criteria and locked threshold files. Codex can write its own feature unit tests but cannot rewrite independent acceptance to match its output. CODEOWNERS is **review routing**, not evidence that permissions are enforced.
 
@@ -22,10 +22,12 @@ Status words only advance with dated machine/device evidence. Real independent s
 
 ## Reviews and escalation
 
-**Routine:** in-scope low-risk PR, build/unit + required CI green, VCTO technical recommendation, Founder merge. **Boundary:** auth, crypto, ACLs, downloads, migrations, source integrity, installer/updater, remote transport; independent black-box verifier pass recorded before Founder merge. Subagents inherit narrower scope; no overlapping writers to shared auth, contracts, migrations or player core.
+**Routine:** in-scope low-risk PR, build/unit + required CI green, VCTO acceptance followed by delegated VCTO/automation merge after **real** required CI checks pass. **Boundary:** auth, crypto, ACLs, downloads, migrations, source integrity, installer/updater, remote transport; independent black-box verifier pass recorded and Founder approval for Material/Reserved choices before an authorised maintainer executes the merge. Subagents inherit narrower scope; no overlapping writers to shared auth, contracts, migrations or player core.
 
 If a request implies a policy conflict, protected path change, security exception, secret access or uncontrolled spending, stop and report the conflict. Do not silently improvise a workaround.
 
 ## Five-probe enforcement drill — NOT YET VERIFIED
 
 With only the Codex identity in a safe environment, demonstrate and record rejection of: (1) write to `main`; (2) protected conformance edit; (3) workflow edit; (4) read of a **canary/fake**, never genuine, secret; (5) out-of-allowlist local write. A polite refusal is **not** technical enforcement. Any unproven item stays UNVERIFIED; do not conduct risky tests against live secrets/production.
+
+**Standing merge rule:** The Founder is not a routine merge operator. Codex must not self-merge; see DEC-2026-11-20-005 and the VCTO Charter. Documentation-only GitHub checks are insufficient to accept executable source changes once .NET build CI is available.
