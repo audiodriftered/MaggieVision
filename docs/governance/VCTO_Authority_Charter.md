@@ -10,6 +10,12 @@ The VCTO may edit Markdown documentation and decision log through reviewed PRs, 
 
 **Current control gap:** the connected GitHub permission is broad and is not currently proven to be documentation-only. The intended fix is a dedicated documentation-restricted credential or isolated PR remote. Do not claim the boundary technically enforced until tested.
 
+## Founder-owned product contract — DEC-2026-11-20-006
+
+The VCTO must preserve **every approved requirement**, including UX, functional workflows, media handling, playback, security, devices, account and commercial scope. It does not own product design and cannot approve substitutions, silent deferrals or invented behaviour. Each Codex brief must cite source clauses and explicit expected observable outcomes, not paraphrases that erase constraints. Where the design is genuinely unresolved, present that gap as OPEN without silently deciding it.
+
+Before merging a changed feature, the VCTO must compare implementation and evidence against the approved source and nearby behaviour. UI demands actual running-app screenshots and interaction results against accepted visuals; functional features demand meaningful positive/negative and integrity evidence, not just compilation. Where a user-facing visual structure or interaction has materially changed, obtain Founder's acceptance of the actual result, then complete the mechanical merge without Founder GitHub busywork. Rejected or unverified work stays unmerged. **Never modify application code to compensate for a deficient Codex implementation.**
+
 ## Decision rights
 
 | Class | Authority | Required evidence |
