@@ -6,7 +6,7 @@
 
 ## Artwork and data contract
 
-The featured image and 15 landscape card images are generated synthetic demonstration assets in the parent `Assets` directory. Cards are defined in three in-memory arrays in `VideoHomePage.xaml.cs`: a title, illustrative subtitle, image index and optional progress/badge. The page loads each bundled image directly through a native `BitmapImage`; it does not create a persistent catalogue or load arbitrary paths. Each row's next arrow advances its own horizontal scroll viewer when there is additional content beyond the current viewport.
+The featured image and 15 landscape card images are generated synthetic demonstration assets in the parent `Assets` directory. Cards are defined in three in-memory arrays in `VideoHomePage.xaml.cs`: a title, illustrative subtitle, image index and optional progress/badge. The page loads each bundled image directly through a native `BitmapImage`; it does not create a persistent catalogue or load arbitrary paths. Each row's next arrow advances its own horizontal scroll viewer when there is additional content beyond the current viewport. At the approved desktop reference width the layout fits four cards across, then responds to narrower and wider windows.
 
 ## Build and validation
 

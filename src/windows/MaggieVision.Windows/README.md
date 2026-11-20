@@ -2,11 +2,11 @@
 
 ## Purpose and ownership
 
-This unpackaged WinUI 3 application owns the native Windows window, module switcher, single module-scoped navigation pane and the first Video Home composition. `MainWindow` owns the title bar and module switcher. `MainPage` binds the existing pure `MaggieVision.Windows.Navigation` state model to `NavigationView`. `VideoHomePage` owns the synthetic Video Home presentation. No browser, WebView, host service, catalogue, source media or user account is opened by these components.
+This unpackaged WinUI 3 application owns the native Windows window, module switcher, one module-scoped navigation pane, Video Home, Films browsing and Film Details screens. `MainWindow` owns the title bar and module switcher. `MainPage` binds the pure `MaggieVision.Windows.Navigation` model to `NavigationView` and maps `video.home` and `video.films` to native pages. `VideoHomePage`, `VideoFilmsPage` and `FilmDetailsPage` are presentation components. The pure `MaggieVision.Windows.Video` project contains the synthetic film records and filtering/sorting query. No browser, WebView, host service, personal catalogue, source media or user account is opened by these components.
 
 ## Approved visual reference
 
-`docs/design/references/video-home-layout-v1.png` is the byte-preserved Founder-approved layout reference. Its colours are provisional; all shell palette brushes are grouped under `Themes/ProvisionalTheme.xaml` so a later approved theme can replace the palette without changing layout or control structure. The image is the layout authority for the header, sidebar, feature area and landscape content rows. Fictional titles and artwork are demonstration-only.
+`docs/design/references/README.md` indexes the byte-preserved Founder-approved UI handoff PNGs. The Product Bible defines behavior; the mockups guide layout. Their fictional titles/artwork are illustrative only. The palette is provisional; shell brushes are grouped under `Themes/ProvisionalTheme.xaml` so a later approved theme can change colours independently.
 
 ## Build, test and launch
 
@@ -16,22 +16,24 @@ The SDK pin is `10.0.404` in `src/windows/global.json`; the target is `net10.0-w
 dotnet --info
 dotnet restore .\MaggieVision.Windows.slnx --locked-mode --runtime win-x64
 dotnet build .\MaggieVision.Windows.slnx --configuration Release --no-restore -p:TreatWarningsAsErrors=true
-dotnet test ..\..\tests\unit\windows\MaggieVision.Windows.Navigation.Tests\MaggieVision.Windows.Navigation.Tests.csproj --configuration Release --no-build --no-restore
-dotnet run --project .\MaggieVision.Windows\MaggieVision.Windows.csproj --configuration Release
+dotnet test .\MaggieVision.Windows.slnx --configuration Release --no-build --no-restore
+dotnet run --project .\MaggieVision.Windows\MaggieVision.Windows.csproj --configuration Release --no-build
 ```
 
-`VideoHomePage` loads the hero and 15 synthetic landscape card image assets from `Assets/` with native `BitmapImage` sources. Card frames retain a 16:9 layout using `Stretch.UniformToFill`.
+The home and film pages load bundled synthetic landscape images from `Assets/` with native `BitmapImage` sources. Video cards use landscape 16:9 frames with `Stretch.UniformToFill`. The Films page supports title search, genre filtering, title/year/recent ordering and grid/list presentation over an in-memory synthetic catalogue. Selecting a film opens a full-content-area detail screen; Back returns to Films. Actions that need a media library, profile or playback engine report that those integrations are unavailable. The component-level catalogue contract and tests are in `MaggieVision.Windows.Video/README.md`.
 
 ## Visible behavior and boundaries
 
 - The title bar contains branding and a Video/Music switcher. Its native title-bar pane toggle controls the one `NavigationView` list. The list contains the full module-specific route set; its Settings footer remains at the bottom.
-- Video Home displays one cinematic featured-film region, Continue Watching, Recently Added Films and Recently Added TV Programmes. The card row artwork crops to the accepted landscape 16:9 shape. Each row heading includes a next arrow that advances its horizontal scroll position when more cards extend beyond the viewport.
-- Routes other than Video Home currently display an explicit navigation placeholder. The feature buttons, carousel dots and card play marks are visual elements only; they do not claim to start playback, mutate a watchlist or access a catalogue.
+- Video Home displays a cinematic featured film and the three agreed video rows. Its layout uses four cards across at the supplied desktop reference width, adapting card width with available space.
+- Films displays the synthetic featured title, resume row, filtered/sorted film cards, popular row and genre filters. Card selection opens Film Details; the detail backdrop fills the content surface behind a readable text treatment.
+- Other routes still display an explicit navigation placeholder. Play, Watch Trailer, watchlist and favourite actions do not mutate state or open media; a user-facing message identifies the missing integration.
 - All names and images in the page are synthetic demonstration content. No library scan starts, no personal paths are read, and no source-media changes occur.
-- Navigation and card layout are local presentation only. Persistence, real catalogue queries, media playback, artwork metadata, account/profile state, custom shortcut editing and settings storage are not implemented by Issue #22.
+- TV programme details/seasons and the Music Home, Artists and immersive Now Playing screens are the next design implementation slices; their references are indexed under `docs/design/references/`.
+- Catalogue search/filter/sort currently uses only `DemoFilmCatalogue` fixtures and is not a production library query. Persistence, real catalogue queries, playback, artwork metadata, cast/crew, account/profile state, custom shortcut editing and settings storage are not implemented.
 
 ## Accessibility, troubleshooting and handover
 
-Navigation destinations and the module switcher have accessible names. The shell retains native WinUI navigation controls and keyboard access. If images are absent, verify that the project copied `Assets/*.png` beside the executable. If the application fails to activate, confirm the matching Windows App Runtime is installed; do not alter device security settings as a workaround.
+Navigation destinations, film cards, filters and the module switcher have accessible names or native control labels. The shell retains WinUI navigation controls and keyboard access. If images are absent, verify that the project copied `Assets/*.png` beside the executable. If the application fails to activate, confirm the matching Windows App Runtime is installed; do not alter device security settings as a workaround. See `docs/wp01windows/evidence.md` for dated native launch, screenshot and visual-comparison evidence.
 
 This component README and `VideoHome/README.md` describe ownership, interactions, commands, assumptions and known limits for an incoming human CTO. Live UI captures and visual comparison are recorded in `docs/wp01windows/evidence.md`.

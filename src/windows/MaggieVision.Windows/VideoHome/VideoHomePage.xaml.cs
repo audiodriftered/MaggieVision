@@ -179,7 +179,7 @@ public sealed partial class VideoHomePage : Page
         FeaturedMetadata.FontSize = 14 * scale;
         FeaturedDescription.FontSize = 15 * scale;
 
-        var cardWidth = Math.Max(252, (availableWidth - 4 * 14) / 5);
+        var cardWidth = Math.Max(220, (availableWidth - 3 * 14) / 4);
         foreach (var row in new[] { ContinueWatchingCards, RecentFilmCards, RecentProgrammeCards })
         {
             foreach (var card in row.Children.OfType<Border>())

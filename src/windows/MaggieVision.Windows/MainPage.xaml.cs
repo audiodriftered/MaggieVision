@@ -1,4 +1,5 @@
 using MaggieVision.Windows.Navigation;
+using MaggieVision.Windows.Video;
 using MaggieVision_Windows.Themes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
@@ -52,9 +53,8 @@ public sealed partial class MainPage : Page
 
     private void OnMainPageSizeChanged(object sender, SizeChangedEventArgs args)
     {
-        // The approved reference uses a sidebar about 18% of the window width.
-        // Keep its 300 DIP minimum at the reference's 1672 DIP canvas.
-        _shell.OpenPaneLength = Math.Max(300, args.NewSize.Width * 0.18);
+        // Match the supplied desktop reference's roughly 15.5% sidebar while keeping labels readable.
+        _shell.OpenPaneLength = Math.Max(248, args.NewSize.Width * 0.155);
     }
 
     private void OnNavigationSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -97,9 +97,33 @@ public sealed partial class MainPage : Page
             return;
         }
 
+        if (destination.Id == "video.films")
+        {
+            ShowFilmsLanding();
+            return;
+        }
+
         var moduleName = _navigation.State.Module == MediaModule.Video ? "Video" : "Music";
         ShowPlaceholder(destination.Label, $"{moduleName} · {destination.Label}. This view is a navigation placeholder. No media has been scanned or opened.");
     }
+
+    private void ShowFilmsLanding()
+    {
+        var page = new MaggieVision_Windows.Video.Films.VideoFilmsPage();
+        page.FilmSelected += OnFilmSelected;
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void OnFilmSelected(object? sender, DemoFilm film)
+    {
+        var page = new MaggieVision_Windows.Video.Films.FilmDetailsPage(film);
+        page.BackRequested += OnFilmDetailsBackRequested;
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void OnFilmDetailsBackRequested(object? sender, EventArgs args) => ShowFilmsLanding();
 
     private void ShowPlaceholder(string title, string description)
     {
