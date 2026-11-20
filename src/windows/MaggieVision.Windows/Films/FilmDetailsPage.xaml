@@ -1,0 +1,43 @@
+<Page
+    x:Class="MaggieVision_Windows.Video.Films.FilmDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{ThemeResource ProvisionalShellBrush}">
+    <Grid>
+        <Image x:Name="Backdrop" Stretch="UniformToFill" />
+        <Rectangle IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                    <GradientStop Color="#F2071524" Offset="0" />
+                    <GradientStop Color="#D2071524" Offset="0.48" />
+                    <GradientStop Color="#35071524" Offset="0.86" />
+                    <GradientStop Color="#E6071524" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Padding="34,24,36,36" Spacing="20">
+                <Button x:Name="BackButton" Content="‹  Back to Films" HorizontalAlignment="Left" Click="OnBackClick" />
+                <StackPanel x:Name="DetailsContent" MaxWidth="660" HorizontalAlignment="Left" Spacing="12" Margin="0,32,0,12">
+                    <TextBlock Text="FILM DETAILS" FontSize="12" FontWeight="Bold" CharacterSpacing="140" Foreground="{ThemeResource ProvisionalAccentBrush}" />
+                    <TextBlock x:Name="FilmTitle" FontSize="44" FontWeight="Bold" TextWrapping="Wrap" Foreground="{ThemeResource ProvisionalPrimaryTextBrush}" />
+                    <TextBlock x:Name="FilmMetadata" FontSize="15" Foreground="{ThemeResource ProvisionalPrimaryTextBrush}" />
+                    <TextBlock x:Name="FilmSynopsis" FontSize="17" MaxWidth="610" TextWrapping="Wrap" Foreground="{ThemeResource ProvisionalPrimaryTextBrush}" />
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,4,0,0">
+                        <Button Content="Play" Click="OnUnavailableActionClick" />
+                        <Button Content="Watch Trailer" Click="OnUnavailableActionClick" />
+                        <Button Content="Add to Watchlist" Click="OnUnavailableActionClick" />
+                        <Button Content="Add to Favourites" Click="OnUnavailableActionClick" />
+                    </StackPanel>
+                    <InfoBar x:Name="ActionMessage" IsOpen="False" IsClosable="True" Severity="Informational" />
+                </StackPanel>
+                <Border MaxWidth="660" HorizontalAlignment="Left" Background="#A00A1724" BorderBrush="#704A7890" BorderThickness="1" CornerRadius="8" Padding="18">
+                    <StackPanel Spacing="7">
+                        <TextBlock Text="Cast &amp; Crew" FontSize="20" FontWeight="SemiBold" Foreground="{ThemeResource ProvisionalPrimaryTextBrush}" />
+                        <TextBlock Text="Cast and crew details are unavailable in this synthetic catalogue." TextWrapping="Wrap" Foreground="{ThemeResource ProvisionalSecondaryTextBrush}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
