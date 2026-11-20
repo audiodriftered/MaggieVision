@@ -23,13 +23,23 @@ public sealed partial class MainPage : Page
 
     private void BuildShell()
     {
-        _shell.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+        // The agreed single contextual navigation list starts OPEN, with readable labels.
+        // LeftCompact alone created the icon-only rail seen in the rejected WP-01 screenshot.
+        _shell.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+        _shell.IsPaneOpen = true;
+        _shell.OpenPaneLength = 280;
+        _shell.CompactPaneLength = 52;
         _shell.IsSettingsVisible = true;
         _shell.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
         _shell.IsPaneToggleButtonVisible = true;
         _shell.SelectionChanged += OnNavigationSelectionChanged;
         _shell.PaneClosing += (_, _) => _navigation.SetPaneCollapsed(true);
         _shell.PaneOpened += (_, _) => _navigation.SetPaneCollapsed(false);
+        _shell.Loaded += (_, _) =>
+        {
+            // Never override an intentional user collapse on subsequent UI refreshes.
+            _shell.IsPaneOpen = !_navigation.State.IsPaneCollapsed;
+        };
         AutomationProperties.SetName(_shell, "MaggieVision primary navigation");
 
         _modulePicker.Items.Add(new ComboBoxItem { Content = "Video" });
