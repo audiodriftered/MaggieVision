@@ -39,5 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MaggieVision.Windows.Navigation\MaggieVision.Windows.Navigation.csproj" />
+    <ProjectReference Include="..\MaggieVision.Windows.Video\MaggieVision.Windows.Video.csproj" />
   </ItemGroup>
 </Project>
