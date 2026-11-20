@@ -1,26 +1,40 @@
-# MaggieVision
+# MaggieVision — Engineering Repository Starter
 
-**Your media. Your network. Your rules.**
+**Status:** documentation and repository scaffolding only. This is **not** a recovered or verified source build.
 
-Private development monorepo. Currently at WP-00 **baseline and prototype recovery**. No production source or build has been verified in this repository yet.
+MaggieVision is a local-first, modular personal media ecosystem. Its first commercial-release baseline centres on MaggieMusic and MaggieVideo, with future modules and R&D tracked separately. This repository adopts the 20 November 2026 Product Bible v2.2 as its *working draft specification*, plus the 20 November UI addendum.
 
-MaggieVision is a local-first personal media application. The first commercial release is scoped around MaggieMusic and MaggieVideo. Future modules (MaggieReads, MaggiePictures, online podcast subscriptions) remain separately planned and must not block Music/Video 1.0.
+## Immediate milestone: WP-00
 
-## Start here
+1. Recover source ZIPs and project trees produced during the earlier ChatGPT prototype development, along with local Windows/Android Studio workspaces.
+2. Produce a file-by-file and build-by-build inventory. **Preserve original packages untouched.**
+3. Extract candidates outside Git into `recovery/incoming/` (ignored), assess project/source completeness, compile where supported and verify actual behaviour.
+4. Import traceable source into `prototypes/` on a review branch, then identify reusable modules for `src/`; do not assert a prototype's release readiness based on version number.
+5. Establish reproducible builds and actual CI tests only after a source project and toolchain are confirmed.
 
-- [Product Bible v2.1 — 19 November 2026](docs/product/MaggieVision_Product_Bible_v2.1_2026-11-19.md) — canonical working draft; awaiting formal owner signoff.
-- [UI & Navigation Addendum — 20 November 2026](docs/decisions/MaggieVision_UI_Addendum_2026-11-20.md) — latest agreed UI direction.
-- [WP-00 execution brief](docs/engineering/MaggieVision_WP00_Execution_Brief_2026-11-20.md) — prototype recovery and verified build baseline.
-- [Prototype recovery register](docs/engineering/Prototype_Recovery_Register.md).
+Read `docs/engineering/Prototype_Recovery_Register.md` and `docs/engineering/MaggieVision_WP00_Execution_Brief_2026-11-20.md`.
 
-### Repository layout
+## Directory layout
 
-`src/` — production source after review. `prototypes/` — recovered and preserved source trees. `api/` — versioned host/client contracts. `tests/` — real runnable tests. `docs/` — decisions, engineering, test evidence. `scripts/` — safe inventory and validation tools. `recovery/incoming/` — **locally ignored**, untrusted downloaded archive staging.
+- `docs/product/`: canonical draft and release scope
+- `docs/decisions/`: dated product/UI decisions; add to Bible after reconciliation
+- `docs/engineering/`: work packages, evidence, acceptance and build inventory
+- `api/`: later versioned host/client contracts
+- `src/`: production targets, **empty until recovered code has been assessed**
+- `prototypes/`: preserved, reviewed prototype source imports
+- `tests/`: tests associated with actual source
+- `scripts/`: read-only inventory and baseline validation
+- `recovery/incoming/`: **ignored** local ZIP/build dumps, never commit archives by default
+- `recovery/reports/`: **ignored** generated evidence
 
-**Important:** All existing source libraries are strictly read-only; library scans are explicitly user-initiated. Windows application must be native, not WebView. Discovery never authorises unknown devices. No manual IP, pairing code, ADB or Xbox Developer Mode in consumer onboarding.
+**Security:** private repository; never commit credentials, household libraries, copyrighted media, `.env`, signing keys or unredacted personal paths/logs.
 
-Do not commit test media, local libraries, credentials, signing keys, source ZIP archives, binary installers, narration model weights, or unredacted diagnostics.
+**CI notice:** the initial GitHub Action validates the document scaffold **only**. It does not compile or test MaggieVision.
 
-### CI
+## Independent architecture review and governance
 
-The initial Action validates **documentation only**; it does **not** compile MaggieVision. Build/test CI will be added after actual source recovery and toolchain verification.
+- [Approved independent Anywhere release](docs/decisions/DEC-2026-11-20-001_Anywhere_Independent_Release.md)
+- [Architecture review / ADR gates](docs/architecture/Architecture_Review_Decisions_2026-11-20.md)
+- [Founder/VCTO/Codex guardrails and delivery](docs/engineering/Engineering_Delivery_and_Governance_2026-11-20.md)
+
+Anywhere is independently gated: a ready core Music/Video release need not wait for remote transport or relay economics. These are controlled documents and do not imply product implementation or approved third-party expenses.

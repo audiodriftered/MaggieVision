@@ -1,6 +1,6 @@
 # MaggieVision — WP-00 Controlled Engineering Baseline
 
-**Input authority:** MaggieVision Product Bible v2.1 (19 Nov 2026), §19–§26, plus *UI and Navigation Decision Addendum* (20 Nov 2026).  
+**Input authority:** MaggieVision Product Bible v2.2 (20 Nov 2026), preserving v2.1 as historical baseline, §19–§26, plus *UI and Navigation Decision Addendum* (20 Nov 2026).  
 **Purpose:** Move from discussion to reproducible, evidence-backed engineering without rebuilding already working prototypes or inventing new product policy.
 
 ## Mission
@@ -40,3 +40,15 @@ Produce a factual inventory of the existing MaggieVision development assets: Win
 ## WP-00 completion criteria
 
 The developer can identify exactly which components exist, reproduce their builds (or document precise blockers), distinguish demonstrated from hypothesised capabilities, and propose the first code change tied to an explicit `MV-*` acceptance criterion. Only then is WP-00 closed.
+
+## Independent architecture review — execution corrections (20 November 2026)
+
+WP-00 remains source recovery and evidence capture. In parallel, run bounded **S-01** native composition/PCM output, **S-02** device/host trust and signed-out service file access, and **S-04** local network-emulation/relay cost modeling. S-04 external expenditure is **£0 until Founder approval**.
+
+**WP-01a:** assign agent writes only `src/host/` and `tests/unit/host/` (not `tests/conformance/`). Build minimum service, explicit-root scan, opaque IDs, strict read-only source protection and deny-all without approved device. Independent QA-001; QA-003 remains **NOT STARTED**.
+
+**WP-01b:** first review ADR-001 (transcript-authenticated key exchange, host key pinning, one-tap match without typed code); implement **real** approval and revocation; run independently authored QA-003 and spoofed-host/approval-flood tests. A stub never passes QA-003.
+
+Before schema: ADR-002 for least-privilege signed-out access to user folders and SMB/NAS, with **no ACL exception preapproved**; ADR-003 for stable media/edition/source identity and domain-specific sync conflict rules, then clocks. Revocation is host authoritative.
+
+Work follows the [controlled governance document](../engineering/Engineering_Delivery_and_Governance_2026-11-20.md). Founder retains product, spend, ACL-exception and release authority; protected conformance testing remains outside implementation-agent write scope.
