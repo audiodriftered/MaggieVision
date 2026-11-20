@@ -22,3 +22,15 @@
 - Run S-01/S-02/S-04 as bounded proof tasks with no unapproved spend. One writer at a time for auth/API schema/migrations/player core. Red-team review for changes affecting auth, ACLs, crypto, downloads, migrations and installer.
 - Routine loop: task brief → agent PR+CI evidence → independent security/conformance verification when needed → VCTO acceptance → Founder merge. G0–G5 are release gates, not per-PR red tape.
 - Anywhere is independently gated; failing its own tests cannot delay a ready Music/Video release.
+
+## Human-engineer readability and handover (Founder direction, 20 Nov 2026)
+
+Every substantive production-code PR must be independently understandable to an incoming human CTO **without ChatGPT/Codex conversation history**:
+
+- Keep modules cohesive, names meaningful, public interfaces and dependencies explicit. Prefer straightforward, inspectable code over opaque cleverness.
+- For each new major component, include a concise `README.md` within its authorised source directory: purpose, ownership, module interactions, required SDK/dependencies, configuration, exact build/run/test commands, input/output or API contracts, security/data assumptions, known limitations and troubleshooting.
+- Update relevant architecture/decision notes through an authorised **documentation-only review PR** when implementation changes interfaces, data models, permissions or system boundaries. A coding agent must **not** bypass its path allowlist to do this; instead include a requested documentation change in the implementation PR.
+- Record `MV-*` / `QA-*` requirement IDs and dated build/test/device evidence; describe why non-obvious decisions were made. Do not generate volumes of redundant comments or claim untested functionality is verified.
+- A substantial change is not ready for VCTO acceptance if a qualified engineer cannot reproduce the build/tests and explain its interactions from code plus checked-in docs. If documentation is absent or outdated, mark the handover condition **NOT MET**.
+
+The maintained index is `docs/engineering/Human_CTO_Handover.md`. It must state clearly what has **actually** been implemented and independently verified, versus future design.
