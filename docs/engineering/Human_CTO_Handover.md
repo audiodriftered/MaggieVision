@@ -2,7 +2,7 @@
 
 **Living technical index** · 20 November 2026 · maintained in GitHub with reviewed documentation PRs.
 
-**Current truth:** The repo contains Product Bible v2.2, architecture/governance records, an issue for the greenfield Windows host, and documentation-only CI. **No commercial application source has been independently built/tested here yet.** This page must be updated as work is implemented; do not fill gaps with guesses.
+**Current truth:** The repo contains Product Bible v2.2, architecture/governance records, an issue for the greenfield Windows host, and documentation-only CI. **The inert greenfield host is now merged on main (PR #4; 20 Nov). Codex provided local build/test logs; independent .NET CI build is NOT yet installed or verified.** This page must be updated as work is implemented; do not fill gaps with guesses.
 
 ## Onboarding: start here
 
@@ -18,7 +18,7 @@
 | Component | Status | Source path / build entry point | Evidence |
 |---|---|---|---|
 | Documentation baseline | **Verified documentation check** | `python scripts/check_baseline.py` in repo root | GitHub Action on baseline merge; **this does not compile MaggieVision** |
-| Windows host/service | **Not started / unverified** | Planned `src/host/` | No fresh production build evidence yet |
+| Windows host/service | **In progress — inert foundation merged** | `src/host/MaggieVision.Host.sln` | [PR #4](https://github.com/audiodriftered/MaggieVision/pull/4), [WP-00 local evidence](../wp00/WP00_Evidence_2026-11-20.md): locked restore/build and xUnit 1/1 locally reported; no independent .NET CI/SCM installed-service proof |
 | Windows native UI | **Not started / unverified** | Planned `src/windows/` | No fresh production build evidence yet |
 | Android / Fire OS clients | **Not started / unverified** | Planned `src/android/` | No fresh production build evidence yet |
 | Independent conformance tests | **Not operational** | Planned `tests/conformance/` | Protected authoring/enforcement pending |
@@ -43,4 +43,4 @@ Can a suitably skilled, previously uninvolved engineer use **only a clean clone,
 
 ADR-001 first-contact security; ADR-002 signed-out file/share access; ADR-003 stable media IDs/sync; S-01 rendering/audio; S-02 trust/filesystem; S-04 Anywhere economics at £0. GitHub Codex identity and denial drill are unverified. Do not assume technical controls exist because the documents prescribe them.
 
-**Next update trigger:** first Codex source PR or approved architecture decision.
+**Next update trigger:** independent .NET CI setup PR and first meaningful host vertical slice; record actual build/test evidence and any failed takeover checks.

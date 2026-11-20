@@ -6,7 +6,7 @@
 
 | Role | Owns | May not do |
 |---|---|---|
-| **Founder** | Product policy, release coupling, commercial and external spend, source/ACL/security exceptions, final merges and release go/no-go | Accidentally delegate major policy choices to an implementation agent |
+| **Founder** | Product policy, release coupling, commercial and external spend, source/ACL/security exceptions, delegated merge policy, material risk exceptions and release go/no-go | Accidentally delegate major policy choices to an implementation agent |
 | **VCTO** | Task architecture/ADR, sequencing, requirement/QA mapping, review of technical evidence, escalation | Treat agent claims as verified results or approve unbudgeted spend |
 | **Codex** | Work within the assigned branch and file allowlist; implement code and unit tests; provide reproducible PR evidence | Write to main, govern its own tests, change core policy/contract/QA/security fixtures, self-merge |
 | **Subagents** | Narrow non-overlapping research/code tasks under the VCTO | Concurrent writes to API schemas, auth/identity, migrations or player core |
@@ -14,15 +14,15 @@
 
 ## GitHub and sandbox safeguards
 
-1. Founder-controlled canonical **main**. Codex uses a separate credential/identity restricted to feature branches, **never direct main write**. If private repo ruleset/bypass controls cannot actually enforce this account's plan, give Codex only a **fork/separate remote** from which it can submit PRs; founder independently merges. Verify permissions, don't mistake CODEOWNERS for enforcement.
+1. Founder-controlled canonical **main**. Codex uses a separate credential/identity restricted to feature branches, **never direct main write**. If private repo ruleset/bypass controls cannot actually enforce this account's plan, give Codex only a **fork/separate remote** from which it can submit PRs; independent authorised reviewer merges after checks (Founder not required for routine PRs). Verify permissions, don't mistake CODEOWNERS for enforcement.
 2. Protect `contracts/`, `tests/conformance/`, `.github/`, `AGENTS.md`, governing product docs and any security fixtures from the implementation agent. An implementation agent may write its own unit tests. Conformance tests are authored in a separate session/review and cannot be changed to make a failing build pass.
 3. Default Codex sandbox: no external network, minimum permissions, task-specific path write allowlist, fixtures mounted read-only. Explicitly grant only needed exceptions; secrets are not copied to chat or test logs.
-4. One writer at a time on identity/crypto, API contract, database migrations and player core. No autonomous merges, paid service signups, app-store actions, key creation, public release or expenditure.
+4. One writer at a time on identity/crypto, API contract, database migrations and player core. No Codex self-merges, paid service signups, app-store actions, key creation, public release or expenditure.
 5. CI eventually runs independent conformance, source hashes/mtime/path/**ACL checks**, secret scans, pinned dependency/license review, and checks that tests/skips are not silently weakened. **Current GitHub CI is documentation-only** until a clean greenfield build is added and verified.
 
 ## Lightweight work loop
 
-**VCTO bounded task brief → Codex PR and build/unit evidence → independent conformance/device tests when boundary affected → VCTO technical acceptance → Founder merge.** G0–G5 are **release gates**, not six separate approval ceremonies per routine task. Security red-team review for auth, ACLs, crypto, downloads, migrations, installer/updater and other rights-sensitive changes.
+**VCTO bounded brief → Codex feature PR → objective CI/evidence → VCTO review → VCTO/authorised automation merges Routine PRs.** Boundary changes need independent verification and the required Founder approval before an authorised merge. Codex never self-merges. G0–G5 are **release gates**, not six separate approval ceremonies per routine task. Security red-team review for auth, ACLs, crypto, downloads, migrations, installer/updater and other rights-sensitive changes.
 
 Every PR records task, `MV-*`/`QA-*` IDs, author branch/commit, changed files, toolchain and exact commands, pass/fail logs, test evidence, actual device checks if applicable, limitations and rollback path. No green test based on a fake handshake or untested stub.
 
@@ -50,10 +50,19 @@ Core Music/Video may launch upon its own gates. Anywhere has an independent **A0
 
 ## Founder-approved documentation stewardship (20 November 2026)
 
-The Founder explicitly permits the VCTO/ChatGPT documentation assistant to **maintain development documentation and the decision log** through reviewable GitHub documentation branches and pull requests. This **replaces** the earlier proposed blanket prohibition on all VCTO GitHub writes, but **does not** authorise code edits, CI/workflow edits, protected acceptance modifications, unilateral Product Bible decisions, spending, releases or merging. The Founder retains final merge authority. Record material decisions in `docs/decisions/Product_Development_Decision_Log.md`; never silently rewrite an approved decision—mark it superseded and link the replacement.
+The Founder explicitly permits the VCTO/ChatGPT documentation assistant to **maintain development documentation and the decision log** through reviewable GitHub documentation branches and pull requests. This **replaces** the earlier proposed blanket prohibition on all VCTO GitHub writes, but **does not** authorise code edits, CI/workflow edits, protected acceptance modifications, unilateral Product Bible decisions, spending or releases. **Standing Founder delegation DEC-2026-11-20-005 authorises VCTO routine merges only after required independent checks;** boundary, governance/charter, acceptance-threshold and material decisions remain reserved or subject to additional approval. Record material decisions in `docs/decisions/Product_Development_Decision_Log.md`; never silently rewrite an approved decision—mark it superseded and link the replacement.
 
 **Enforcement status: UNVERIFIED.** The connected GitHub identity currently exposes broad repository permissions; path/branch limits written here are behavioural commitments, not proven technical access controls. Use a dedicated documentation-only credential or Founder-reviewed fork/PR route when available, and record an actual denial test before claiming restriction. CODEOWNERS alone cannot enforce this.
 
 **Human-CTO handover requirement:** `docs/engineering/Human_CTO_Handover.md` is the living engineering index. Implementation PRs must provide enough source-level descriptions, public contracts, exact build/run/test commands, operational caveats and dated evidence for an incoming engineer to work without chat transcripts. The VCTO reviews this alongside functional evidence. Codex updates only documentation within its assigned paths; protected central docs are proposed separately, never silently edited.
 
 Two concise charters are proposed under `docs/governance/`; their unratified provisions must not be described as mechanically active. The decision log and living handover index are operational records, not additional approval stages.
+
+
+## Standing merge delegation — DEC-2026-11-20-005
+
+**Founder direction (20 November 2026):** Do not require Founder to click each routine merge. The VCTO may complete a **Routine** PR merge through the connected GitHub tool after: (1) confirmed in-scope diff and no protected/critical paths; (2) all applicable **actual build/unit CI** checks green, not merely documentation checks; (3) independently reviewed evidence, human-CTO notes and no unresolved critical findings; and (4) original PR author is **not** the sole reviewer/merger. Record the decision in the PR. A documentation-only bootstrap PR may use explicitly recorded, independently reviewed local evidence **only as a one-off before build CI exists**; do not silently generalise this exception.
+
+**Boundary PRs:** authentication, crypto, ACLs, downloads, migrations, installer, source-integrity, remote transport, signed releases, `.github/`, protected conformance/acceptance, charters and governing policy. Require the independent verification recorded in the PR, plus explicit Founder approval for Material/Reserved policy/security/acceptance changes. Once approved, the authorised maintainer executes the merge; the Founder **never needs to perform the mechanical click**.
+
+**Codex may never approve/merge its own PR or acquire production/release credentials.** If actual repository restrictions are unverified, label them UNVERIFIED rather than claiming a real enforcement boundary. Any green documentation-only CI does not count as .NET build verification. Never delay approved work for unrelated speculative governance checks.

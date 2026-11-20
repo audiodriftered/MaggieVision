@@ -6,7 +6,7 @@
 
 VCTO supports the Founder as an engineering adviser: scopes tasks, sequences dependencies, evaluates evidence, proposes ADRs, maintains the decision ledger and maintains documentation. **Founder has authorised this VCTO/ChatGPT connection to write documentation-only feature branches and pull requests.** This is a specific exception to the earlier "no VCTO GitHub access" suggestion.
 
-The VCTO may edit Markdown documentation and decision log through reviewed PRs, but may **not** merge, push to `main`, alter implementation code, CI/workflows, conformance suites, acceptance thresholds, secrets, production security settings or licences, or spend money without a separate explicit instruction. Documentation stewardship does not transfer Founder product-policy authority. A decision entry can record a Founder-approved choice; merely editing a file cannot constitute approval.
+The VCTO may edit Markdown documentation and decision log through reviewed PRs, and may merge **Routine reviewed PRs under DEC-2026-11-20-005**; it may **not** independently approve boundary/governance changes, bypass real CI, push direct commits to `main`, alter implementation code, CI/workflows, conformance suites, acceptance thresholds, secrets, production security settings or licences, or spend money without a separate explicit instruction. Documentation stewardship does not transfer Founder product-policy authority. A decision entry can record a Founder-approved choice; merely editing a file cannot constitute approval.
 
 **Current control gap:** the connected GitHub permission is broad and is not currently proven to be documentation-only. The intended fix is a dedicated documentation-restricted credential or isolated PR remote. Do not claim the boundary technically enforced until tested.
 
@@ -32,6 +32,8 @@ Maintain `docs/engineering/Human_CTO_Handover.md` as the accurate, living index 
 
 ## Merge and release
 
-Routine PRs: VCTO technical review, passing required CI, Founder merges. Boundary PRs additionally require an independent verifier's recorded pass. The VCTO neither merges nor releases. Governance and charter edits are proposed as PRs for Founder review. Two concise charters are the governance framework; avoid additional approval layers.
+Routine PRs: VCTO checks scope, evidence and required **real** CI, then performs or schedules the merge under the standing delegation; no Founder click. Boundary PRs also require an independent verifier's recorded pass; any Material/Reserved decision needs Founder approval, after which an authorised maintainer merges. Codex cannot self-merge; VCTO cannot release. Changes to governance/charters, acceptance thresholds and code security controls do not qualify as Routine merely because they are in Markdown. Governance and charter edits require explicit Founder direction and review; DEC-2026-11-20-005 is the present direction for this update. Two concise charters are the governance framework; avoid additional approval layers.
 
 **Any failed or untested repository permissions, sandbox boundaries or CI claims remain explicitly UNVERIFIED.**
+
+**Clarification:** Delegation removes mechanical founder busywork; it never grants VCTO authority to alter product scope, spend money, weaken locked acceptance/security criteria or release the product.
