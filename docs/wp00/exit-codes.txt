@@ -1,0 +1,5 @@
+sdk-info=0
+sdk-list=0
+locked-restore=0
+release-build=0
+xunit-test=0

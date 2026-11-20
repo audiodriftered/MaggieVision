@@ -1,0 +1,23 @@
+Test run for C:\Dev\MaggieVision\tests\unit\host\MaggieVision.Host.Tests\bin\Release\net10.0\MaggieVision.Host.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.15)
+[xUnit.net 00:00:00.55]   Discovering: MaggieVision.Host.Tests
+[xUnit.net 00:00:00.58]   Discovered:  MaggieVision.Host.Tests
+[xUnit.net 00:00:00.59]   Starting:    MaggieVision.Host.Tests
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: MaggieVision.Host.InertHostWorker[0]
+      MaggieVision host started in inert WP-00 mode; discovery, media access, and listeners are disabled.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Dev\MaggieVision\tests\unit\host\MaggieVision.Host.Tests\bin\Release\net10.0
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[xUnit.net 00:00:00.90]   Finished:    MaggieVision.Host.Tests
+  Passed MaggieVision.Host.Tests.HostCompositionTests.Host_starts_and_stops_with_only_the_inert_worker_registered [285 ms]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 1.3652 Seconds
