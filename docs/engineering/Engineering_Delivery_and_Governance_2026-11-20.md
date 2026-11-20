@@ -47,3 +47,13 @@ Core Music/Video may launch upon its own gates. Anywhere has an independent **A0
 - [ ] Create and verify a **new** clean production build with pinned toolchains; importing/recovering prototype code is neither required nor planned.
 - [ ] Review ADR-001/002/003 and run S-01/S-02/S-04 before dependent implementation commitments.
 - [ ] Set CI provenance and independent QA gates once buildable code and rights-safe fixtures exist.
+
+## Founder-approved documentation stewardship (20 November 2026)
+
+The Founder explicitly permits the VCTO/ChatGPT documentation assistant to **maintain development documentation and the decision log** through reviewable GitHub documentation branches and pull requests. This **replaces** the earlier proposed blanket prohibition on all VCTO GitHub writes, but **does not** authorise code edits, CI/workflow edits, protected acceptance modifications, unilateral Product Bible decisions, spending, releases or merging. The Founder retains final merge authority. Record material decisions in `docs/decisions/Product_Development_Decision_Log.md`; never silently rewrite an approved decision—mark it superseded and link the replacement.
+
+**Enforcement status: UNVERIFIED.** The connected GitHub identity currently exposes broad repository permissions; path/branch limits written here are behavioural commitments, not proven technical access controls. Use a dedicated documentation-only credential or Founder-reviewed fork/PR route when available, and record an actual denial test before claiming restriction. CODEOWNERS alone cannot enforce this.
+
+**Human-CTO handover requirement:** `docs/engineering/Human_CTO_Handover.md` is the living engineering index. Implementation PRs must provide enough source-level descriptions, public contracts, exact build/run/test commands, operational caveats and dated evidence for an incoming engineer to work without chat transcripts. The VCTO reviews this alongside functional evidence. Codex updates only documentation within its assigned paths; protected central docs are proposed separately, never silently edited.
+
+Two concise charters are proposed under `docs/governance/`; their unratified provisions must not be described as mechanically active. The decision log and living handover index are operational records, not additional approval stages.

@@ -39,3 +39,11 @@ Read `docs/engineering/MaggieVision_WP00_Execution_Brief_2026-11-20.md` and `doc
 - [Founder/VCTO/Codex guardrails and delivery](docs/engineering/Engineering_Delivery_and_Governance_2026-11-20.md)
 
 Anywhere is independently gated: a ready core Music/Video release need not wait for remote transport or relay economics. These are controlled documents and do not imply product implementation or approved third-party expenses.
+
+## Development decisions and human-CTO handover
+
+- [Product development decision log](docs/decisions/Product_Development_Decision_Log.md): dated Founder-approved decisions, proposals, supersessions and rationale.
+- [Human CTO handover](docs/engineering/Human_CTO_Handover.md): living technical overview, source/build/test entry points, architecture ownership and known gaps.
+- [Codex Operating Charter (proposed)](docs/governance/Codex_Operating_Charter.md) and [VCTO Authority Charter (proposed)](docs/governance/VCTO_Authority_Charter.md).
+
+All substantial code PRs must explain the component's purpose, dependencies, public interfaces, build/run/test steps, relevant security assumptions and non-obvious trade-offs **in version-controlled documentation**, with evidence. A new human CTO must be able to take ownership without this chat history. Do not confuse a drafted standard with automated enforcement: current CI checks documentation scaffolding only.
