@@ -1,45 +1,37 @@
-# MaggieVision Windows shell
+# MaggieVision native Windows shell
 
 ## Purpose and ownership
 
-This project is the first native Windows presentation shell for MaggieVision. It owns the WinUI 3 window and the visible Video/Music navigation only. Its app entry point remains separate from `src/host`; the shell uses the pure navigation model in `MaggieVision.Windows.Navigation` and does not call host services.
+This unpackaged WinUI 3 application owns the native Windows window, module switcher, single module-scoped navigation pane and the first Video Home composition. `MainWindow` owns the title bar and module switcher. `MainPage` binds the existing pure `MaggieVision.Windows.Navigation` state model to `NavigationView`. `VideoHomePage` owns the synthetic Video Home presentation. No browser, WebView, host service, catalogue, source media or user account is opened by these components.
 
-## Build and run
+## Approved visual reference
 
-The SDK is pinned by `src/windows/global.json` to .NET SDK **10.0.404**. From `src/windows`:
+`docs/design/references/video-home-layout-v1.png` is the byte-preserved Founder-approved layout reference. Its colours are provisional; all shell palette brushes are grouped under `Themes/ProvisionalTheme.xaml` so a later approved theme can replace the palette without changing layout or control structure. The image is the layout authority for the header, sidebar, feature area and landscape content rows. Fictional titles and artwork are demonstration-only.
+
+## Build, test and launch
+
+The SDK pin is `10.0.404` in `src/windows/global.json`; the target is `net10.0-windows10.0.26100.0`, Windows App SDK `2.7.0`, Windows SDK Build Tools `10.0.28000.2957`. From `src/windows` in a Windows PowerShell terminal:
 
 ```powershell
 dotnet --info
 dotnet restore .\MaggieVision.Windows.slnx --locked-mode --runtime win-x64
 dotnet build .\MaggieVision.Windows.slnx --configuration Release --no-restore -p:TreatWarningsAsErrors=true
 dotnet test ..\..\tests\unit\windows\MaggieVision.Windows.Navigation.Tests\MaggieVision.Windows.Navigation.Tests.csproj --configuration Release --no-build --no-restore
-```
-
-To run from source:
-
-```powershell
 dotnet run --project .\MaggieVision.Windows\MaggieVision.Windows.csproj --configuration Release
 ```
 
-The shell targets `net10.0-windows10.0.26100.0`, uses Windows App SDK **2.7.0** and Windows SDK Build Tools **10.0.28000.2957**, and is configured as an unpackaged WinUI 3 desktop app. The machine must have the matching Windows App Runtime available; this project does not install a runtime or create an installer. The local `global.json` is intentionally scoped to `src/windows`, and does not change the host build's SDK pin.
+`VideoHomePage` loads the hero and 15 synthetic landscape card image assets from `Assets/` with native `BitmapImage` sources. Card frames retain a 16:9 layout using `Stretch.UniformToFill`.
 
-## UI contract
+## Visible behavior and boundaries
 
-- The native WinUI `NavigationView` is the single collapsible navigation list. Its module picker switches the list between Video and Music; Settings is the native footer destination.
-- Clicking a destination updates the selected route and a corresponding structural placeholder page.
-- The module picker is in the navigation pane header and is available when the pane is expanded. The standard NavigationView keyboard, pointer and Narrator semantics are retained; menu items and the module picker have accessible names.
-- Video exposes Home, Films, TV Programmes, Personal Videos, Folders, Collections, Watchlist, Favourites and Search. Music exposes Home, Artists, Albums, Tracks, Playlists, Genres, Years, Smart Playlists, Folders, Now Playing and Favourites.
-- The native shell currently contains placeholders only. There is no media catalogue, playback, settings storage, custom-shortcut editor, persistence, account/profile state, network call, or media access.
+- The title bar contains branding and a Video/Music switcher. Its native title-bar pane toggle controls the one `NavigationView` list. The list contains the full module-specific route set; its Settings footer remains at the bottom.
+- Video Home displays one cinematic featured-film region, Continue Watching, Recently Added Films and Recently Added TV Programmes. The card row artwork crops to the accepted landscape 16:9 shape. Each row heading includes a next arrow that advances its horizontal scroll position when more cards extend beyond the viewport.
+- Routes other than Video Home currently display an explicit navigation placeholder. The feature buttons, carousel dots and card play marks are visual elements only; they do not claim to start playback, mutate a watchlist or access a catalogue.
+- All names and images in the page are synthetic demonstration content. No library scan starts, no personal paths are read, and no source-media changes occur.
+- Navigation and card layout are local presentation only. Persistence, real catalogue queries, media playback, artwork metadata, account/profile state, custom shortcut editing and settings storage are not implemented by Issue #22.
 
-## Data and security assumptions
+## Accessibility, troubleshooting and handover
 
-`MaggieVision.Windows` passes only route identifiers to the pure navigation controller. The shell does not open user-selected paths or enumerate folders. The placeholder explicitly states that no media was scanned or opened. No source-media writes, sidecars, privileged operations or credentials are part of this component.
+Navigation destinations and the module switcher have accessible names. The shell retains native WinUI navigation controls and keyboard access. If images are absent, verify that the project copied `Assets/*.png` beside the executable. If the application fails to activate, confirm the matching Windows App Runtime is installed; do not alter device security settings as a workaround.
 
-## Troubleshooting
-
-- If `dotnet` is not found in a shell, open a fresh terminal or invoke the installed SDK executable directly.
-- If locked restore fails because a runtime pack is absent, restore with the documented `--runtime win-x64` argument before building.
-- If the app does not open, check that the matching Windows App Runtime is installed for the selected architecture. Do not change Developer Mode or other security settings as a workaround.
-- GitHub Actions currently builds/tests the host only. This Windows shell is not yet covered by repository CI; a workflow change is a separate infrastructure assignment.
-
-See `src/windows/MaggieVision.Windows.Navigation/README.md` for route state and its test contract. Windows launch and UI evidence for this change is in `docs/wp01windows/evidence.md`.
+This component README and `VideoHome/README.md` describe ownership, interactions, commands, assumptions and known limits for an incoming human CTO. Live UI captures and visual comparison are recorded in `docs/wp01windows/evidence.md`.

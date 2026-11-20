@@ -1,7 +1,9 @@
 using MaggieVision.Windows.Navigation;
+using MaggieVision_Windows.Themes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace MaggieVision_Windows;
 
@@ -9,58 +11,50 @@ namespace MaggieVision_Windows;
 public sealed partial class MainPage : Page
 {
     private readonly NavigationController _navigation = new();
-    private readonly NavigationView _shell = new();
-    private readonly TextBlock _pageTitle = new();
-    private readonly TextBlock _pageDescription = new();
-    private readonly ComboBox _modulePicker = new();
+    private readonly NavigationView _shell;
+    private readonly Grid _pageHost;
 
     public MainPage()
     {
         InitializeComponent();
+        _shell = ShellNavigation;
+        _pageHost = PageHost;
         BuildShell();
         RenderNavigation();
     }
 
     private void BuildShell()
     {
-        _shell.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
-        _shell.IsSettingsVisible = true;
-        _shell.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
-        _shell.IsPaneToggleButtonVisible = true;
-        _shell.SelectionChanged += OnNavigationSelectionChanged;
-        _shell.PaneClosing += (_, _) => _navigation.SetPaneCollapsed(true);
-        _shell.PaneOpened += (_, _) => _navigation.SetPaneCollapsed(false);
         AutomationProperties.SetName(_shell, "MaggieVision primary navigation");
 
-        _modulePicker.Items.Add(new ComboBoxItem { Content = "Video" });
-        _modulePicker.Items.Add(new ComboBoxItem { Content = "Music" });
-        _modulePicker.SelectedIndex = 0;
-        _modulePicker.SelectionChanged += OnModuleSelectionChanged;
-        AutomationProperties.SetName(_modulePicker, "Media module");
-        _shell.PaneHeader = _modulePicker;
-
-        var pageContent = new StackPanel { Spacing = 12, MaxWidth = 760, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
-        _pageTitle.FontSize = 28;
-        _pageDescription.TextWrapping = TextWrapping.Wrap;
-        pageContent.Children.Add(_pageTitle);
-        pageContent.Children.Add(_pageDescription);
-        pageContent.Children.Add(new InfoBar
-        {
-            IsOpen = true,
-            IsClosable = false,
-            Severity = InfoBarSeverity.Informational,
-            Title = "Navigation shell",
-            Message = "This page is a structural placeholder. No media has been scanned or opened."
-        });
-        _shell.Content = new Grid { Padding = new Thickness(32), Children = { pageContent } };
-        RootGrid.Children.Add(_shell);
     }
 
-    private void OnModuleSelectionChanged(object sender, SelectionChangedEventArgs args)
+    public void SwitchModule(MediaModule module)
     {
-        if (_modulePicker.SelectedIndex is < 0 or > 1) return;
-        _navigation.SwitchModule(_modulePicker.SelectedIndex == 0 ? MediaModule.Video : MediaModule.Music);
+        _navigation.SwitchModule(module);
         RenderNavigation();
+    }
+
+    public void TogglePane()
+    {
+        _navigation.TogglePane();
+        ApplySidebarLayout();
+    }
+
+    private void ApplySidebarLayout()
+    {
+        var isCollapsed = _navigation.State.IsPaneCollapsed;
+        const double compactWidth = 64;
+        _shell.CompactPaneLength = compactWidth;
+        _shell.PaneDisplayMode = isCollapsed ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
+        _shell.IsPaneOpen = !isCollapsed;
+    }
+
+    private void OnMainPageSizeChanged(object sender, SizeChangedEventArgs args)
+    {
+        // The approved reference uses a sidebar about 18% of the window width.
+        // Keep its 300 DIP minimum at the reference's 1672 DIP canvas.
+        _shell.OpenPaneLength = Math.Max(300, args.NewSize.Width * 0.18);
     }
 
     private void OnNavigationSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -68,7 +62,7 @@ public sealed partial class MainPage : Page
         if (args.IsSettingsSelected)
         {
             _navigation.SelectSettings();
-            ShowPage("Settings", "Application settings will be available here.");
+            ShowPlaceholder("Settings", "Application settings will be available here.");
             return;
         }
         if (args.SelectedItemContainer?.Tag is not string destinationId || !_navigation.NavigateTo(destinationId)) return;
@@ -96,14 +90,42 @@ public sealed partial class MainPage : Page
 
     private void ShowDestination(NavigationDestination destination)
     {
+        if (destination.Id == "video.home")
+        {
+            _pageHost.Children.Clear();
+            _pageHost.Children.Add(new MaggieVision_Windows.VideoHome.VideoHomePage());
+            return;
+        }
+
         var moduleName = _navigation.State.Module == MediaModule.Video ? "Video" : "Music";
-        ShowPage(destination.Label, $"{moduleName} · {destination.Label}. This view is a navigation placeholder.");
+        ShowPlaceholder(destination.Label, $"{moduleName} · {destination.Label}. This view is a navigation placeholder. No media has been scanned or opened.");
     }
 
-    private void ShowPage(string title, string description)
+    private void ShowPlaceholder(string title, string description)
     {
-        _pageTitle.Text = title;
-        _pageDescription.Text = description;
+        var panel = new StackPanel { Spacing = 12, MaxWidth = 760, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+        panel.Children.Add(new TextBlock { Text = title, FontSize = 30, Foreground = ProvisionalPalette.GetBrush("ProvisionalPrimaryTextBrush", ActualTheme) });
+        panel.Children.Add(new TextBlock
+        {
+            Text = description,
+            TextWrapping = TextWrapping.Wrap,
+            Foreground = ProvisionalPalette.GetBrush("ProvisionalSecondaryTextBrush", ActualTheme)
+        });
+        panel.Children.Add(new InfoBar
+        {
+            IsOpen = true,
+            IsClosable = false,
+            Severity = InfoBarSeverity.Informational,
+            Title = "Navigation placeholder",
+            Message = "This destination is represented for navigation only. No media has been scanned or opened."
+        });
+
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(new ScrollViewer
+        {
+            Padding = new Thickness(32),
+            Content = panel
+        });
     }
 
     private static Symbol ToSymbol(string symbol) => symbol switch

@@ -12,7 +12,78 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TitleBar x:Name="AppTitleBar" Title="MaggieVision" />
+        <TitleBar
+            x:Name="AppTitleBar"
+            Height="64"
+            IsPaneToggleButtonVisible="False"
+            Background="{ThemeResource ProvisionalHeaderBrush}">
+            <TitleBar.LeftHeader>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="18" Padding="20,0,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="9" AutomationProperties.Name="MaggieVision">
+                        <FontIcon Glyph="&#xE768;" FontSize="25" Foreground="{ThemeResource ProvisionalAccentBrush}" />
+                        <TextBlock Text="MaggieVision" FontSize="20" FontWeight="SemiBold" Foreground="{ThemeResource ProvisionalPrimaryTextBrush}" />
+                    </StackPanel>
+                    <Button
+                        Click="OnNavigationToggleClick"
+                        Background="Transparent"
+                        BorderBrush="{ThemeResource ProvisionalSegmentBorderBrush}"
+                        BorderThickness="1"
+                        Padding="10,7"
+                        AutomationProperties.Name="Toggle Navigation">
+                        <FontIcon Glyph="&#xE700;" FontSize="16" />
+                    </Button>
+                </StackPanel>
+            </TitleBar.LeftHeader>
+            <TitleBar.Content>
+                <Border
+                    BorderBrush="{ThemeResource ProvisionalSegmentBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="25"
+                    Background="{ThemeResource ProvisionalHeaderBrush}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" AutomationProperties.Name="Media module">
+                        <ToggleButton
+                            x:Name="VideoModuleSelector"
+                            IsChecked="True"
+                            Checked="OnModuleSelectionChanged"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="4"
+                            AutomationProperties.Name="Video module">
+                            <Border
+                                x:Name="VideoSegmentSurface"
+                                Background="{ThemeResource ProvisionalAccentStrongBrush}"
+                                CornerRadius="23"
+                                Padding="20,8">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE714;" />
+                                    <TextBlock Text="Video" />
+                                </StackPanel>
+                            </Border>
+                        </ToggleButton>
+                        <ToggleButton
+                            x:Name="MusicModuleSelector"
+                            Checked="OnModuleSelectionChanged"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="4"
+                            AutomationProperties.Name="Music module">
+                            <Border
+                                x:Name="MusicSegmentSurface"
+                                Background="Transparent"
+                                CornerRadius="23"
+                                Padding="20,8">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE8D6;" />
+                                    <TextBlock Text="Music" />
+                                </StackPanel>
+                            </Border>
+                        </ToggleButton>
+                    </StackPanel>
+                </Border>
+            </TitleBar.Content>
+        </TitleBar>
         <Frame x:Name="RootFrame" Grid.Row="1" />
     </Grid>
 </Window>
