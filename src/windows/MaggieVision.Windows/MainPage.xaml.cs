@@ -1,6 +1,9 @@
 using MaggieVision.Windows.Navigation;
 using MaggieVision.Windows.Video;
+using MaggieVision.Windows.Music;
 using MaggieVision_Windows.Themes;
+using MaggieVision_Windows.Music;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
@@ -14,6 +17,10 @@ public sealed partial class MainPage : Page
     private readonly NavigationController _navigation = new();
     private readonly NavigationView _shell;
     private readonly Grid _pageHost;
+    private readonly MusicPlaybackSession _music = MusicPlaybackSession.Current;
+    private bool _updatingMiniProgress;
+    private bool _updatingMiniVolume;
+    private DispatcherQueueTimer? _playerTimer;
 
     public MainPage()
     {
@@ -22,6 +29,11 @@ public sealed partial class MainPage : Page
         _pageHost = PageHost;
         BuildShell();
         RenderNavigation();
+        _music.StateChanged += OnMusicStateChanged;
+        _playerTimer = DispatcherQueue.CreateTimer();
+        _playerTimer.Interval = TimeSpan.FromMilliseconds(250);
+        _playerTimer.Tick += (_, _) => RefreshMusicControls();
+        _playerTimer.Start();
     }
 
     private void BuildShell()
@@ -34,6 +46,7 @@ public sealed partial class MainPage : Page
     {
         _navigation.SwitchModule(module);
         RenderNavigation();
+        RefreshMusicControls();
     }
 
     public void TogglePane()
@@ -86,6 +99,7 @@ public sealed partial class MainPage : Page
         _shell.SelectedItem = _shell.MenuItems.OfType<NavigationViewItem>()
             .First(item => item.Tag as string == _navigation.State.SelectedDestinationId);
         ShowDestination(_navigation.Destinations.First(item => item.Id == _navigation.State.SelectedDestinationId));
+        RefreshMusicControls();
     }
 
     private void ShowDestination(NavigationDestination destination)
@@ -106,6 +120,24 @@ public sealed partial class MainPage : Page
         if (destination.Id == "video.tv")
         {
             ShowTvProgrammesLanding();
+            return;
+        }
+
+        if (destination.Id == "music.home")
+        {
+            ShowMusicHome();
+            return;
+        }
+
+        if (destination.Id == "music.artists")
+        {
+            ShowMusicArtists();
+            return;
+        }
+
+        if (destination.Id == "music.now-playing")
+        {
+            ShowNowPlaying();
             return;
         }
 
@@ -159,6 +191,87 @@ public sealed partial class MainPage : Page
         _pageHost.Children.Clear();
         _pageHost.Children.Add(page);
     }
+
+    private void ShowMusicHome()
+    {
+        var page = new MusicHomePage();
+        page.ArtistsRequested += (_, _) => NavigateTo("music.artists");
+        page.TracksRequested += (_, tracks) => { if (tracks.Count > 0) _music.PlayNow(tracks); };
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void ShowMusicArtists()
+    {
+        var page = new MusicArtistsPage();
+        page.ArtistSelected += (_, tracks) => { if (tracks.Count > 0) _music.PlayNow(tracks); };
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void ShowNowPlaying()
+    {
+        var page = new MusicNowPlayingPage();
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void NavigateTo(string destinationId)
+    {
+        if (!_navigation.NavigateTo(destinationId)) return;
+        _shell.SelectedItem = _shell.MenuItems.OfType<NavigationViewItem>().First(item => item.Tag as string == destinationId);
+        ShowDestination(_navigation.Destinations.First(item => item.Id == destinationId));
+    }
+
+    private void OnMusicStateChanged(object? sender, EventArgs args) => DispatcherQueue.TryEnqueue(RefreshMusicControls);
+
+    private void RefreshMusicControls()
+    {
+        MusicMiniPlayer.Visibility = _navigation.State.Module == MediaModule.Music ? Visibility.Visible : Visibility.Collapsed;
+        var track = _music.Track;
+        MiniTrackTitle.Text = track?.Title ?? "Nothing playing";
+        MiniTrackArtist.Text = _music.PlaybackError ?? (track is null ? "Choose a synthetic demo track" : $"{track.Artist}  ·  {track.Album}");
+        MiniArtwork.Source = track is null ? null : new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", track.ArtworkFile)));
+        MiniPlayGlyph.Glyph = _music.IsPlaying ? "\uE769" : "\uE768";
+        MiniFavouriteGlyph.Glyph = track is not null && _music.IsFavourite(track) ? "\uEB52" : "\uEB51";
+        MiniRepeatGlyph.Glyph = _music.RepeatMode == DemoRepeatMode.Off ? "\uE8EE" : "\uE8ED";
+        AutomationProperties.SetName(MiniRepeatGlyph, $"Repeat mode: {_music.RepeatMode}");
+        MiniElapsed.Text = FormatTime(_music.Position);
+        MiniDuration.Text = FormatTime(_music.Duration);
+        _updatingMiniProgress = true;
+        MiniProgress.Maximum = Math.Max(1, _music.Duration.TotalSeconds);
+        MiniProgress.Value = Math.Clamp(_music.Position.TotalSeconds, MiniProgress.Minimum, MiniProgress.Maximum);
+        _updatingMiniProgress = false;
+        _updatingMiniVolume = true;
+        MiniVolume.Value = _music.Volume;
+        _updatingMiniVolume = false;
+        if (_pageHost.Children.OfType<MusicNowPlayingPage>().FirstOrDefault() is { } nowPlaying)
+            nowPlaying.RefreshPlaybackState();
+    }
+
+    private void OnMiniTrackClick(object sender, RoutedEventArgs args) => NavigateTo("music.now-playing");
+    private void OnPlayPauseClick(object sender, RoutedEventArgs args) => _music.TogglePlayback();
+    private void OnPreviousClick(object sender, RoutedEventArgs args) => _music.Previous();
+    private void OnNextClick(object sender, RoutedEventArgs args) => _music.Next();
+    private void OnShuffleClick(object sender, RoutedEventArgs args) => _music.ToggleShuffle();
+    private void OnRepeatClick(object sender, RoutedEventArgs args) => _music.CycleRepeatMode();
+    private void OnMiniFavouriteClick(object sender, RoutedEventArgs args) { if (_music.Track is { } track) _music.ToggleFavourite(track); }
+    private void OnQueueClick(object sender, RoutedEventArgs args)
+    {
+        NavigateTo("music.now-playing");
+        if (_pageHost.Children.OfType<MusicNowPlayingPage>().FirstOrDefault() is { } nowPlaying) nowPlaying.OpenQueue();
+    }
+    private void OnMiniProgressChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs args)
+    {
+        if (!_updatingMiniProgress && _music.Track is not null) _music.Seek(TimeSpan.FromSeconds(args.NewValue));
+    }
+
+    private void OnMiniVolumeChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs args)
+    {
+        if (!_updatingMiniVolume) _music.Volume = args.NewValue;
+    }
+
+    private static string FormatTime(TimeSpan time) => $"{(int)time.TotalMinutes}:{time.Seconds:00}";
 
     private void ShowPlaceholder(string title, string description)
     {

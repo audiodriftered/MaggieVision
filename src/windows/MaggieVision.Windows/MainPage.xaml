@@ -4,19 +4,64 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Background="{ThemeResource ProvisionalShellBrush}"
     SizeChanged="OnMainPageSizeChanged">
-    <NavigationView
-        x:Name="ShellNavigation"
-        PaneDisplayMode="Left"
-        OpenPaneLength="300"
-        CompactPaneLength="64"
-        IsPaneOpen="True"
-        IsPaneToggleButtonVisible="False"
-        IsSettingsVisible="True"
-        IsBackButtonVisible="Collapsed"
-        Background="{ThemeResource ProvisionalShellBrush}"
-        SelectionChanged="OnNavigationSelectionChanged">
-        <NavigationView.Content>
-            <Grid x:Name="PageHost" Background="{ThemeResource ProvisionalShellBrush}" />
-        </NavigationView.Content>
-    </NavigationView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <NavigationView
+            x:Name="ShellNavigation"
+            PaneDisplayMode="Left"
+            OpenPaneLength="300"
+            CompactPaneLength="64"
+            IsPaneOpen="True"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="True"
+            IsBackButtonVisible="Collapsed"
+            Background="{ThemeResource ProvisionalShellBrush}"
+            SelectionChanged="OnNavigationSelectionChanged">
+            <NavigationView.Content>
+                <Grid x:Name="PageHost" Background="{ThemeResource ProvisionalShellBrush}" />
+            </NavigationView.Content>
+        </NavigationView>
+        <Border x:Name="MusicMiniPlayer" Grid.Row="1" Visibility="Collapsed" Background="#F0141C29" BorderBrush="{ThemeResource ProvisionalSegmentBorderBrush}" BorderThickness="1,1,0,0" Padding="20,10">
+            <Grid ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Click="OnMiniTrackClick" Background="Transparent" HorizontalContentAlignment="Left" Padding="0" AutomationProperties.Name="Open Now Playing">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Image x:Name="MiniArtwork" Width="58" Height="58" Stretch="UniformToFill" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="MiniTrackTitle" FontSize="16" FontWeight="SemiBold" Text="Nothing playing" />
+                            <TextBlock x:Name="MiniTrackArtist" Foreground="{ThemeResource ProvisionalSecondaryTextBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <Button Click="OnShuffleClick" AutomationProperties.Name="Toggle shuffle"><FontIcon Glyph="&#xE8B1;" /></Button>
+                    <Button Click="OnPreviousClick" AutomationProperties.Name="Previous track"><FontIcon Glyph="&#xE892;" /></Button>
+                    <Button x:Name="MiniPlayButton" Click="OnPlayPauseClick" AutomationProperties.Name="Play or pause"><FontIcon x:Name="MiniPlayGlyph" Glyph="&#xE768;" /></Button>
+                    <Button Click="OnNextClick" AutomationProperties.Name="Next track"><FontIcon Glyph="&#xE893;" /></Button>
+                    <Button Click="OnRepeatClick" AutomationProperties.Name="Cycle repeat mode"><FontIcon x:Name="MiniRepeatGlyph" Glyph="&#xE8EE;" /></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                    <TextBlock x:Name="MiniElapsed" Text="0:00" VerticalAlignment="Center" FontSize="12" />
+                    <Slider x:Name="MiniProgress" Minimum="0" Maximum="20" ValueChanged="OnMiniProgressChanged" VerticalAlignment="Center" HorizontalAlignment="Stretch" AutomationProperties.Name="Playback position" />
+                    <TextBlock x:Name="MiniDuration" Text="0:20" VerticalAlignment="Center" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <FontIcon Glyph="&#xE767;" />
+                    <Slider x:Name="MiniVolume" Minimum="0" Maximum="1" Value="0.7" Width="130" ValueChanged="OnMiniVolumeChanged" AutomationProperties.Name="Playback volume" />
+                </StackPanel>
+                <Button Grid.Column="4" Click="OnMiniFavouriteClick" AutomationProperties.Name="Toggle favourite"><FontIcon x:Name="MiniFavouriteGlyph" Glyph="&#xEB52;" /></Button>
+                <Button Grid.Column="5" Click="OnQueueClick" AutomationProperties.Name="Open playback queue"><FontIcon Glyph="&#xE90B;" /></Button>
+            </Grid>
+        </Border>
+    </Grid>
 </Page>
