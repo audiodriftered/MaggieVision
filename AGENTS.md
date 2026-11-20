@@ -1,13 +1,13 @@
 # MaggieVision AI Coding-Agent Rules
 
 1. Read `docs/product/MaggieVision_Product_Bible_v2.2_2026-11-20.md` and the dated UI addendum before proposing source changes.
-2. WP-00 is **read/inventory/build/test first**. Do not rewrite, migrate frameworks or claim builds are verified without actual logs.
+2. **Greenfield rule DEC-2026-11-20-002:** develop new production source from scratch. Do not recover, audit, import, migrate or reuse prototype code. WP-00 bootstraps a clean build/test foundation. Never claim a build was verified without actual logs.
 3. Preserve original user media and source libraries absolutely read-only on every platform. Never write sidecars or retag files.
 4. Library scans start only after explicit user instruction. UI catalogue edits do not edit source files.
 5. Native Windows application only; no browser/WebView/localhost-based product UI.
 6. Host enforces device/profile permissions; network discovery is not authorisation. Consumer UX must require no manual IP, pairing code, ADB or developer mode.
 7. Local playback and approved LAN playback remain functional without cloud/account dependency.
-8. Keep historical prototypes intact and import changes through reviewed branches. Use stable versioned API contracts and source/QA evidence.
+8. Do not use historical prototypes as implementation input or a blocker. Follow approved Product Bible requirements, architecture decisions, fresh source/QA evidence, and versioned API contracts.
 9. Report in every development change: source version/commit, files changed, commands run, tests pass/fail, actual device validation and limitations.
 10. Do not turn future modules (RSS Podcasts, MaggieReads, Pictures) into Music/Video 1.0 launch gates without a new approved decision.
 

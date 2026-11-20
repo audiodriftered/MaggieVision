@@ -18,7 +18,7 @@
 2. Protect `contracts/`, `tests/conformance/`, `.github/`, `AGENTS.md`, governing product docs and any security fixtures from the implementation agent. An implementation agent may write its own unit tests. Conformance tests are authored in a separate session/review and cannot be changed to make a failing build pass.
 3. Default Codex sandbox: no external network, minimum permissions, task-specific path write allowlist, fixtures mounted read-only. Explicitly grant only needed exceptions; secrets are not copied to chat or test logs.
 4. One writer at a time on identity/crypto, API contract, database migrations and player core. No autonomous merges, paid service signups, app-store actions, key creation, public release or expenditure.
-5. CI eventually runs independent conformance, source hashes/mtime/path/**ACL checks**, secret scans, pinned dependency/license review, and checks that tests/skips are not silently weakened. **Current GitHub CI is documentation-only** until the software source is recovered.
+5. CI eventually runs independent conformance, source hashes/mtime/path/**ACL checks**, secret scans, pinned dependency/license review, and checks that tests/skips are not silently weakened. **Current GitHub CI is documentation-only** until a clean greenfield build is added and verified.
 
 ## Lightweight work loop
 
@@ -30,7 +30,7 @@ Every PR records task, `MV-*`/`QA-*` IDs, author branch/commit, changed files, t
 
 | Task | Implementation agent allowed writes | Verification |
 |---|---|---|
-| **WP-00** | `docs/wp00/`, `prototypes/` reviewed source only; all originals read-only | SHA ledger, compile/prototype/device matrix, risk & licence provenance |
+| **WP-00 — greenfield** | `src/host/`, `tests/unit/host/`, `docs/wp00/` | Clean new service skeleton, reproducible compile/unit tests, toolchain evidence and no legacy-source dependency |
 | **S-01 / S-02 / S-04** | `spikes/s01/`, `spikes/s02/`, `spikes/s04/` only | Reproducible logs; **S-04 local cost model only at £0** |
 | **WP-01a host skeleton** | `src/host/`, `tests/unit/host/` | Independently authored QA-001, deny-all; QA-003 **NOT STARTED** |
 | **WP-01b real trust** | reviewed ADR + narrowly approved implementation directories, excluding conformance | Independent QA-003 and revocation/spoof/flood suite against real host |
@@ -44,6 +44,6 @@ Core Music/Video may launch upon its own gates. Anywhere has an independent **A0
 
 - [ ] Verify private GitHub repository's **actual** branch-protection/ruleset permissions and main bypass semantics.
 - [ ] Establish isolated Codex credentials and test that they truly cannot update `main` or conformance files.
-- [ ] Recover prototype archives and compile using pinned toolchains before promoting source.
+- [ ] Create and verify a **new** clean production build with pinned toolchains; importing/recovering prototype code is neither required nor planned.
 - [ ] Review ADR-001/002/003 and run S-01/S-02/S-04 before dependent implementation commitments.
 - [ ] Set CI provenance and independent QA gates once buildable code and rights-safe fixtures exist.

@@ -1,54 +1,33 @@
-# MaggieVision — WP-00 Controlled Engineering Baseline
+# MaggieVision — WP-00 Greenfield Production Engineering Bootstrap
 
-**Input authority:** MaggieVision Product Bible v2.2 (20 Nov 2026), preserving v2.1 as historical baseline, §19–§26, plus *UI and Navigation Decision Addendum* (20 Nov 2026).  
-**Purpose:** Move from discussion to reproducible, evidence-backed engineering without rebuilding already working prototypes or inventing new product policy.
+**Authority:** Product Bible v2.2, UI addendum, Founder decision DEC-2026-11-20-002 (fresh start), and engineering governance.
+**Status:** First production engineering task. **Old prototypes are NOT inputs, dependencies or acceptance gates.**
 
-## Mission
+## Objective
+Start a clean commercial MaggieVision codebase under `audiodriftered/MaggieVision`. Set up a reproducible foundation for the native Windows host and future clients, with credible first compile/test evidence. Do not spend time searching old chats, ZIPs, Go/browser sources or Android prototypes.
 
-Produce a factual inventory of the existing MaggieVision development assets: Windows host/server and native desktop UI, video/music player components, Android tablet/phone and Fire TV clients, Apple/Xbox experiments if present, MaggieReads/MaggieNarrator labs, build scripts, test fixtures, manifests, API contracts, dependencies and release artifacts.
+## WP-00 implementation task (Codex)
 
-**WP-00 is inventory and verification work.** It does not authorise an arbitrary framework migration or rewrite. Never declare a platform “working” because its source directory exists.
+- Work on an isolated `wp00/greenfield-bootstrap` branch (or restricted fork if permissions demand).
+- Read the Product Bible v2.2, new founder decision and `AGENTS.md`.
+- Use .NET SDK/ASP.NET Core Windows Service targeting the supported Windows environment as the current **engineering target**, not an untested guarantee.
+- Create a minimal, genuine compilable host/service project under `src/host/` and a unit/smoke test project under `tests/unit/host/`; use only local, synthetic fixtures.
+- Document detected installed SDK/toolchain, explicit install requirements, dependency/lockfile choices, clean build command and actual test output under `docs/wp00/`.
+- Keep the host inert initially: no automatic discovery, file scanning, external listener, remote connection, scheduled task, source-folder permission changes, paid API or user media access.
+- If root-level solution/build files, CI workflows or contracts need edits outside the agent allowlist, request a **separate VCTO-approved infrastructure change**. Do not bypass governance.
 
-## Required evidence outputs
+## Deliverables and acceptance
+1. One new source tree whose design comes from current requirements rather than legacy code.
+2. Repeatable clean compile and at least one real passing unit/smoke test; include logs and commit SHA. Never invent build results.
+3. Minimal requirement linkage (e.g. MV-C004 host service target and MV-O004 engineering process); status `Not started / In progress / Verified` accurately recorded.
+4. Small PR containing implementation plus tests, no uncontrolled project-wide rewrites.
+5. A crisp plan for WP-01a (explicit-root scan, opaque IDs and default-deny) based on the new baseline, not prototypes.
 
-1. **Repository map:** repository URL/path, commit SHA, branch, language/toolchain, component role, ownership and working-tree status for every discovered project.
-2. **Build matrix:** commands, installed toolchains, dependency versions, reproducible compile/pass/fail outcome and exact failure log reference; identify what can actually build on the current machine.
-3. **Prototype matrix:** host, Windows native UI, Android local music, Fire TV video, Apple/Xbox, books narration — evidenced features vs untested claims, defects and missing files.
-4. **Playback/test-device inventory:** actual hardware/OS, tested codecs/subtitles/audio outputs, LAN discovery results, build identity and observed failures.
-5. **Requirements trace:** link existing modules/tests to governing `MV-*` IDs and addendum `MV-UI*` IDs; classify each as *Not started / Prototype only / In progress / Verified on device / Released*.
-6. **Risk register:** critical gaps blocking native Windows service/UI, network security, source-read-only guarantee, device approval, signed install and stable audio/video playback.
-7. **Next implementation slice:** one small, demonstrable WP-01/WP-02 vertical slice with acceptance criteria and rollback plan, selected from actual code evidence.
+## Hard controls
+- No commits directly to `main`; no autonomous merge or paid services; external spend ceiling £0.
+- Do not modify `tests/conformance/`, governing product docs, security fixtures, `.github/`, `AGENTS.md` or `contracts/` as the implementation agent.
+- No unapproved writes to any user media or library roots. Synthetic test fixtures only.
+- The stub/initial service may not claim QA-001 or QA-003 passed without independent execution and correct scope. In particular QA-003 remains **NOT STARTED** until the real approval handshake exists.
+- S-01 (native rendering/audio), S-02 (service identity/trust/ACL), S-04 (local-only Anywhere cost model) are independently scoped research spikes. They do not require old prototypes.
 
-## Non-negotiable checks
-
-- Original media libraries are strictly read-only. Indexing and metadata edits must never write into them.
-- No automatic rescans; only explicit user scan jobs.
-- Windows client is truly native, not a localhost/WebView UI. The Windows service continues independently of the UI after sign-out/lock when implemented.
-- Android/Fire TV ordinary users must never need command prompts, IP addresses, ADB, pairing codes or Xbox Developer Mode.
-- Local media continues without host/cloud; device approval is enforced server-side for shared libraries.
-- Any claimed bit-perfect status is demonstrated with the actual processing/output path, not a decorative label.
-- Product Bible's commercial scope remains Music/Video 1.0; Podcasts RSS, MaggieReads and Pictures are not launch blockers.
-
-## Coding-agent execution rules
-
-- First inspect, build, test and report; **do not** edit source, install paid services or migrate frameworks until the evidence inventory is reviewed.
-- Preserve current known-good build artifacts and tag/identify reproducible baselines before development.
-- Prefer focused end-to-end working slices; changes require compile checks, unit/integration tests, regression coverage and a rollback path.
-- Record actual command output, environment and build SHA. Do not mark a task verified solely from code review or an AI narrative.
-- Any conflict with a settled product rule must be escalated as an engineering blocker rather than silently substituting a new product decision.
-
-## WP-00 completion criteria
-
-The developer can identify exactly which components exist, reproduce their builds (or document precise blockers), distinguish demonstrated from hypothesised capabilities, and propose the first code change tied to an explicit `MV-*` acceptance criterion. Only then is WP-00 closed.
-
-## Independent architecture review — execution corrections (20 November 2026)
-
-WP-00 remains source recovery and evidence capture. In parallel, run bounded **S-01** native composition/PCM output, **S-02** device/host trust and signed-out service file access, and **S-04** local network-emulation/relay cost modeling. S-04 external expenditure is **£0 until Founder approval**.
-
-**WP-01a:** assign agent writes only `src/host/` and `tests/unit/host/` (not `tests/conformance/`). Build minimum service, explicit-root scan, opaque IDs, strict read-only source protection and deny-all without approved device. Independent QA-001; QA-003 remains **NOT STARTED**.
-
-**WP-01b:** first review ADR-001 (transcript-authenticated key exchange, host key pinning, one-tap match without typed code); implement **real** approval and revocation; run independently authored QA-003 and spoofed-host/approval-flood tests. A stub never passes QA-003.
-
-Before schema: ADR-002 for least-privilege signed-out access to user folders and SMB/NAS, with **no ACL exception preapproved**; ADR-003 for stable media/edition/source identity and domain-specific sync conflict rules, then clocks. Revocation is host authoritative.
-
-Work follows the [controlled governance document](../engineering/Engineering_Delivery_and_Governance_2026-11-20.md). Founder retains product, spend, ACL-exception and release authority; protected conformance testing remains outside implementation-agent write scope.
+**Finish:** provide source paths, build command/output, unit test command/output, limitations and GitHub PR URL. No code from former prototypes is to be imported.

@@ -88,7 +88,7 @@ These IDs are addenda; they do not claim implementation status or supersede exis
 
 ## 6. Engineering insertion points
 
-- **WP-00:** Attach this addendum to the existing baseline; inventory actual UI source and screenshots. Mark code features `not started / prototype only / in progress / verified on device` separately from owner agreement. Do not modify source before collecting a reproducible build.
+- **WP-00:** Apply this addendum as a specification for the **new greenfield codebase**. Create a clean host/build/test baseline. Mark UI features `not started` until independently implemented and tested; no legacy UI inventory or source import is required.
 - **WP-01:** Implement the native navigation shell and typed route/configuration state with Music/Video first, modular extension points for later sections.
 - **WP-03:** Implement native Music Now Playing and mini-player against the actual playback engine; prototype artwork composition and analyser with measured CPU/GPU cost.
 - **WP-04:** Persist per-profile navigation preferences and favourites and reconcile safely offline.
@@ -96,6 +96,6 @@ These IDs are addenda; they do not claim implementation status or supersede exis
 
 ## 7. Immediate handoff
 
-**Next work is WP-00, not another product design workshop.** Retrieve the existing MaggieVision codebases and built prototypes, identify precise working commits, inventory music/video playback, Windows shell, Android/Fire TV clients, narration lab and tests, then output an evidence matrix. Only then open WP-01 engineering changes. The approved Now Playing screenshot is a visual acceptance reference; it is not a source-code implementation.
+**Next work is WP-00 greenfield engineering bootstrap, not another product design workshop or prototype-recovery exercise.** Start a clean host/test build, document actual compile evidence, then proceed to WP-01 bounded feature slices. The approved Now Playing screenshot is a visual acceptance reference; it is not source code to copy.
 
 **Change-control status:** This is a working addendum intended for founder review and controlled integration into the next Product Bible version. No unresolved item above justifies reopening the old decisions or changing the agreed business/release baseline.
