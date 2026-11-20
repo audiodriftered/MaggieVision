@@ -32,6 +32,6 @@ The workflow selects .NET SDK `10.0.404` (commit `2ab2854867`) from `src/host/gl
 - Release build with warnings treated as errors: succeeded with 0 warnings and 0 errors.
 - Unit tests: succeeded; 1 test passed, 0 failed.
 
-GitHub Actions evidence for this PR will be added after the first run completes, including its checked commit, job result and run link. The documentation validator is not a product build or test.
+The first hosted GitHub Actions run [44731116597](https://github.com/audiodriftered/MaggieVision/actions/runs/44731116597) completed successfully on 2026-11-20. It checked PR head `5e19d05358e61c7586e0b5b8b7d00844f665d7cc` via merge ref `e07f2c07e103f7debfc689c2e8f9eb0f57033a4c`. SDK setup, locked restore and Release warnings-as-errors build passed; build reported 0 warnings and 0 errors; unit tests passed 1/1. The separate [documentation baseline run](https://github.com/audiodriftered/MaggieVision/actions/runs/44731116624) also passed and is not product build/test evidence. The documentation validator is not a product build or test.
 
 This workflow exercises the current host unit tests only. It does not establish independent QA-001 source immutability, QA-003 device trust, Windows Service Control Manager installation, before-login operation, service identity, or device coverage. A green check alone does not enforce direct-write restrictions on `main`; branch/ruleset protection is managed separately.
