@@ -103,6 +103,12 @@ public sealed partial class MainPage : Page
             return;
         }
 
+        if (destination.Id == "video.tv")
+        {
+            ShowTvProgrammesLanding();
+            return;
+        }
+
         var moduleName = _navigation.State.Module == MediaModule.Video ? "Video" : "Music";
         ShowPlaceholder(destination.Label, $"{moduleName} · {destination.Label}. This view is a navigation placeholder. No media has been scanned or opened.");
     }
@@ -124,6 +130,35 @@ public sealed partial class MainPage : Page
     }
 
     private void OnFilmDetailsBackRequested(object? sender, EventArgs args) => ShowFilmsLanding();
+
+    private void ShowTvProgrammesLanding()
+    {
+        var page = new MaggieVision_Windows.Video.Programmes.TvProgrammesPage();
+        page.ProgrammeSelected += OnProgrammeSelected;
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void OnProgrammeSelected(object? sender, DemoTvProgramme programme)
+    {
+        var page = new MaggieVision_Windows.Video.Programmes.ProgrammeDetailsPage(programme);
+        page.BackRequested += OnProgrammeDetailsBackRequested;
+        page.SeasonSelected += OnSeasonSelected;
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
+
+    private void OnProgrammeDetailsBackRequested(object? sender, EventArgs args) => ShowTvProgrammesLanding();
+
+    private void OnSeasonSelected(object? sender, int seasonNumber)
+    {
+        var programme = (sender as MaggieVision_Windows.Video.Programmes.ProgrammeDetailsPage)?.Programme;
+        if (programme is null || DemoTvCatalogue.FindSeason(programme.Id, seasonNumber) is not { } season) return;
+        var page = new MaggieVision_Windows.Video.Programmes.SeasonDetailsPage(programme, season);
+        page.BackRequested += (_, _) => OnProgrammeSelected(null, programme);
+        _pageHost.Children.Clear();
+        _pageHost.Children.Add(page);
+    }
 
     private void ShowPlaceholder(string title, string description)
     {
