@@ -4,7 +4,7 @@ public enum MediaModule { Video, Music }
 public enum DestinationKind { BuiltIn, SavedFilter, PinnedFolder, Playlist, Collection }
 
 /// <summary>A menu shortcut to a page or a user-owned view target.</summary>
-public sealed record NavigationDestination(string Id, string Label, string Symbol, DestinationKind Kind, string? TargetId = null, MediaModule? Module = null);
+public sealed record NavigationDestination(string Id, string Label, string Symbol, DestinationKind Kind, string? TargetId = null, MediaModule? Module = null, int? InsertAt = null);
 
 /// <summary>Explicit, in-memory navigation state for the Windows shell.</summary>
 public sealed record NavigationState(MediaModule Module, string SelectedDestinationId, bool IsPaneCollapsed, bool IsSettingsSelected, IReadOnlyList<NavigationDestination> CustomDestinations);
@@ -14,7 +14,23 @@ public sealed class NavigationController
 {
     public NavigationController() => State = new NavigationState(MediaModule.Video, "video.home", false, false, Array.Empty<NavigationDestination>());
     public NavigationState State { get; private set; }
-    public IReadOnlyList<NavigationDestination> Destinations => BuiltIns.For(State.Module).Concat(State.CustomDestinations.Where(item => item.Module == State.Module)).ToArray();
+    public IReadOnlyList<NavigationDestination> Destinations
+    {
+        get
+        {
+            // Built-in and user-added destinations share ONE list; no separate custom section.
+            // Explicit placement lets "Documentaries" sit directly beside "Films".
+            var destinations = BuiltIns.For(State.Module).ToList();
+            foreach (var custom in State.CustomDestinations.Where(item => item.Module == State.Module))
+            {
+                var index = custom.InsertAt is int requested
+                    ? Math.Clamp(requested, 0, destinations.Count)
+                    : destinations.Count;
+                destinations.Insert(index, custom);
+            }
+            return destinations;
+        }
+    }
 
     public bool SwitchModule(MediaModule module)
     {
