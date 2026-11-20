@@ -1,0 +1,8 @@
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: MaggieVision.Host.InertHostWorker[0]
+      MaggieVision host started in inert WP-00 mode; discovery, media access, and listeners are disabled.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Dev\MaggieVision\src\host\MaggieVision.Host
