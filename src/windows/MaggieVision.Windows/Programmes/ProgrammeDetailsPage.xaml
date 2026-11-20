@@ -1,0 +1,38 @@
+<Page
+    x:Class="MaggieVision_Windows.Video.Programmes.ProgrammeDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent">
+    <Grid>
+        <Image x:Name="Backdrop" Stretch="UniformToFill" Opacity="0.42" />
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#F00B1520" Offset="0" />
+                    <GradientStop Color="#A00B1520" Offset="0.58" />
+                    <GradientStop Color="#100B1520" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ContentRoot" Padding="30" Spacing="18" SizeChanged="OnSizeChanged">
+                <Button Content="‹ Back to TV Programmes" Click="OnBackClick" HorizontalAlignment="Left" />
+                <TextBlock Text="TV PROGRAMME" Foreground="{ThemeResource SystemAccentColor}" FontWeight="Bold" />
+                <TextBlock x:Name="ProgrammeTitle" FontSize="42" FontWeight="Bold" TextWrapping="Wrap" />
+                <TextBlock x:Name="Metadata" FontSize="17" />
+                <TextBlock x:Name="Synopsis" FontSize="16" MaxWidth="660" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="Play Next Episode" Click="OnUnavailableActionClick" />
+                    <Button Content="Add to Watchlist" Click="OnUnavailableActionClick" />
+                    <Button Content="Add to Favourites" Click="OnUnavailableActionClick" />
+                </StackPanel>
+                <TextBlock Text="Seasons" FontSize="22" FontWeight="SemiBold" Margin="0,10,0,0" />
+                <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Disabled">
+                    <StackPanel x:Name="SeasonCards" Orientation="Horizontal" Spacing="14" />
+                </ScrollViewer>
+                <InfoBar IsOpen="True" IsClosable="False" Severity="Informational" Title="Synthetic demonstration catalogue" Message="Cast, network, watch history and playback details are not connected to a media library in this build." />
+                <InfoBar x:Name="ActionMessage" IsOpen="False" IsClosable="True" Severity="Informational" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

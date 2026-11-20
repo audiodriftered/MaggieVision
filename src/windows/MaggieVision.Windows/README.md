@@ -2,7 +2,7 @@
 
 ## Purpose and ownership
 
-This unpackaged WinUI 3 application owns the native Windows window, module switcher, one module-scoped navigation pane, Video Home, Films browsing and Film Details screens. `MainWindow` owns the title bar and module switcher. `MainPage` binds the pure `MaggieVision.Windows.Navigation` model to `NavigationView` and maps `video.home` and `video.films` to native pages. `VideoHomePage`, `VideoFilmsPage` and `FilmDetailsPage` are presentation components. The pure `MaggieVision.Windows.Video` project contains the synthetic film records and filtering/sorting query. No browser, WebView, host service, personal catalogue, source media or user account is opened by these components.
+This unpackaged WinUI 3 application owns the native Windows window, module switcher, one module-scoped navigation pane, Video Home, Films browsing, Film Details, TV Programmes, Programme Details and Season Details screens. `MainWindow` owns the title bar and module switcher. `MainPage` binds the pure `MaggieVision.Windows.Navigation` model to `NavigationView` and maps implemented destinations to native pages. `VideoHomePage`, the `Films/` pages and the `Programmes/` pages are presentation components. The pure `MaggieVision.Windows.Video` project contains synthetic catalogue records and browse queries. No browser, WebView, host service, personal catalogue, source media or user account is opened by these components.
 
 ## Approved visual reference
 
@@ -20,17 +20,17 @@ dotnet test .\MaggieVision.Windows.slnx --configuration Release --no-build --no-
 dotnet run --project .\MaggieVision.Windows\MaggieVision.Windows.csproj --configuration Release --no-build
 ```
 
-The home and film pages load bundled synthetic landscape images from `Assets/` with native `BitmapImage` sources. Video cards use landscape 16:9 frames with `Stretch.UniformToFill`. The Films page supports title search, genre filtering, title/year/recent ordering and grid/list presentation over an in-memory synthetic catalogue. Selecting a film opens a full-content-area detail screen; Back returns to Films. Actions that need a media library, profile or playback engine report that those integrations are unavailable. The component-level catalogue contract and tests are in `MaggieVision.Windows.Video/README.md`.
+The home, Films and TV pages load bundled synthetic landscape images from `Assets/` with native `BitmapImage` sources. Video cards use landscape 16:9 frames with `Stretch.UniformToFill`. The Films page supports title search, genre filtering, title/year/recent ordering and grid/list presentation over an in-memory synthetic catalogue. Selecting a film opens a detail screen; Back returns to Films. TV Programmes supports search and Recommended/Browse selection; selecting a programme opens its detail screen and selecting a season opens the episode list. Back navigation follows the hierarchy. Actions that need a media library, profile or playback engine report that those integrations are unavailable. The component-level catalogue contracts and tests are in `MaggieVision.Windows.Video/README.md`.
 
 ## Visible behavior and boundaries
 
 - The title bar contains branding and a Video/Music switcher. Its native title-bar pane toggle controls the one `NavigationView` list. The list contains the full module-specific route set; its Settings footer remains at the bottom.
 - Video Home displays a cinematic featured film and the three agreed video rows. Its layout uses four cards across at the supplied desktop reference width, adapting card width with available space.
 - Films displays the synthetic featured title, resume row, filtered/sorted film cards, popular row and genre filters. Card selection opens Film Details; the detail backdrop fills the content surface behind a readable text treatment.
-- Other routes still display an explicit navigation placeholder. Play, Watch Trailer, watchlist and favourite actions do not mutate state or open media; a user-facing message identifies the missing integration.
+- TV programme pages provide synthetic Continue Watching, Resume Watching and Recently Added groups; search and Recommended/Browse selection filter the fixture list. Programme detail shows synthetic synopsis and seasons; season detail lists synthetic episodes. Play, watchlist, favourite and watched actions do not mutate state or open media; a user-facing message identifies the missing integration.
+- Other routes still display an explicit navigation placeholder. Music Home, Artists and Now Playing remain future implementation slices.
 - All names and images in the page are synthetic demonstration content. No library scan starts, no personal paths are read, and no source-media changes occur.
-- TV programme details/seasons and the Music Home, Artists and immersive Now Playing screens are the next design implementation slices; their references are indexed under `docs/design/references/`.
-- Catalogue search/filter/sort currently uses only `DemoFilmCatalogue` fixtures and is not a production library query. Persistence, real catalogue queries, playback, artwork metadata, cast/crew, account/profile state, custom shortcut editing and settings storage are not implemented.
+- Catalogue search/filter/sort currently uses only synthetic fixtures and is not a production library query. Persistence, real catalogue queries, playback, artwork metadata, cast/crew, account/profile state, custom shortcut editing and settings storage are not implemented. Episode playback, watch progress and watched state are not persisted.
 
 ## Accessibility, troubleshooting and handover
 

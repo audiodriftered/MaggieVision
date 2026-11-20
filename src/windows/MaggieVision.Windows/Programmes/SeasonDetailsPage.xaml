@@ -1,0 +1,31 @@
+<Page
+    x:Class="MaggieVision_Windows.Video.Programmes.SeasonDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent">
+    <Grid>
+        <Image x:Name="Backdrop" Stretch="UniformToFill" Opacity="0.36" />
+        <Rectangle Fill="#CC0B1520" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ContentRoot" Padding="30" Spacing="16" SizeChanged="OnSizeChanged">
+                <Button x:Name="BackButton" Click="OnBackClick" HorizontalAlignment="Left" />
+                <TextBlock Text="TV SEASON" Foreground="{ThemeResource SystemAccentColor}" FontWeight="Bold" />
+                <TextBlock x:Name="SeasonTitle" FontSize="38" FontWeight="Bold" />
+                <TextBlock x:Name="SeasonMetadata" FontSize="16" />
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="Play Season" Click="OnUnavailableActionClick" />
+                    <Button Content="Mark Season Watched" Click="OnUnavailableActionClick" />
+                </StackPanel>
+                <TextBlock Text="Episodes" FontSize="22" FontWeight="SemiBold" Margin="0,12,0,0" />
+                <ItemsControl x:Name="EpisodeList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <InfoBar x:Name="ActionMessage" IsOpen="False" IsClosable="True" Severity="Informational" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

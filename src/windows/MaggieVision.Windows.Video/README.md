@@ -2,7 +2,7 @@
 
 ## Purpose and ownership
 
-This `net10.0` library owns the immutable, synthetic demonstration film records and their in-memory browse query used by native WinUI 3 Films pages. The Windows UI owns controls, image loading and route transitions. The library has no dependency on WinUI, the host, filesystem, network, profile state or media player.
+This `net10.0` library owns immutable, synthetic demonstration film and TV records and their in-memory browse queries used by native WinUI 3 Video pages. The Windows UI owns controls, image loading and route transitions. The library has no dependency on WinUI, the host, filesystem, network, profile state or media player.
 
 ## Interface and data
 
@@ -21,9 +21,11 @@ dotnet run --project .\MaggieVision.Windows\MaggieVision.Windows.csproj --config
 
 Catalogue behavior is tested in `tests/unit/windows/MaggieVision.Windows.Video.Tests`. The app route is `video.films`; selecting a card opens details and Back returns to that route.
 
+TV fixture behavior is provided by `DemoTvCatalogue`: `Programmes` exposes synthetic series, `Find(id)` resolves one series, `FindSeason(programmeId, seasonNumber)` resolves a season, and `Search(query)` filters programme titles. Each programme owns immutable season and episode records. The native routes `video.tv`, programme details and season details are wired in `MainPage`; Back returns to the parent level. Unit tests cover fixture content, lookup and case-insensitive search. Play and watched-state controls are visible affordances only and report that playback/persistence integration is not connected.
+
 ## Security, assumptions and limits
 
-All titles, metadata, descriptions and progress values are fictional. The catalogue is deterministic fixture data only. It does not scan folders or access personal media. It does not write files or expose arbitrary media paths. Production catalogue ownership, profile permissions, playback, watchlist/favourite persistence, cast/crew metadata and library synchronization are not implemented. A demo year ordering is not a production date-added policy. Update fixture tests when adding new query semantics.
+All titles, metadata, descriptions and progress values are fictional. The catalogues are deterministic fixture data only. They do not scan folders or access personal media. They do not write files or expose arbitrary media paths. Production catalogue ownership, profile permissions, playback, watchlist/favourite/watched-state persistence, cast/crew metadata and library synchronization are not implemented. A demo year ordering is not a production date-added policy. Update fixture tests when adding new query semantics.
 
 ## Troubleshooting
 
