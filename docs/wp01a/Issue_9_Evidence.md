@@ -46,7 +46,7 @@ Executed on 20 November 2026 in the authorized Windows checkout using SDK `10.0.
 - `dotnet build .\MaggieVision.Host.sln --configuration Release --no-restore -p:TreatWarningsAsErrors=true` — exit 0; 0 warnings, 0 errors.
 - `dotnet test .\MaggieVision.Host.sln --configuration Release --no-build --no-restore --logger "console;verbosity=normal"` — exit 0; 8 passed, 0 failed (7 catalogue tests plus the WP-00 host lifecycle test).
 
-The independent GitHub-hosted PR run is pending at initial evidence authoring and will be added here after it passes. The separate documentation check is not .NET build or test evidence.
+The GitHub-hosted Windows .NET CI [run 44736184926](https://github.com/audiodriftered/MaggieVision/actions/runs/44736184926) passed on 20 November 2026 for PR head `4346ed7c03b738d30d45b3f714f3390ab01a4f34`. SDK `10.0.404` setup, locked restore, Release warnings-as-errors build (0 warnings, 0 errors), and all 8 xUnit tests (7 catalogue plus 1 host lifecycle) passed. The separate [documentation-baseline run 44736184833](https://github.com/audiodriftered/MaggieVision/actions/runs/44736184833) also passed; it is not .NET build or test evidence.
 
 ## Limits and handover state
 
