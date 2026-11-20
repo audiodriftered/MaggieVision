@@ -8,6 +8,7 @@ public sealed class NavigationControllerTests
         var navigation = new NavigationController();
         Assert.Equal(MediaModule.Video, navigation.State.Module);
         Assert.Equal("video.home", navigation.State.SelectedDestinationId);
+        Assert.False(navigation.State.IsPaneCollapsed); // Native sidebar must start expanded.
         Assert.Contains(navigation.Destinations, destination => destination.Id == "video.films");
         Assert.DoesNotContain(navigation.Destinations, destination => destination.Id == "music.artists");
     }
@@ -16,6 +17,7 @@ public sealed class NavigationControllerTests
         var navigation = new NavigationController();
         Assert.True(navigation.SwitchModule(MediaModule.Music));
         Assert.Equal("music.home", navigation.State.SelectedDestinationId);
+        Assert.False(navigation.State.IsPaneCollapsed); // Changing modules must not collapse labels.
         Assert.Contains(navigation.Destinations, destination => destination.Id == "music.now-playing");
         Assert.DoesNotContain(navigation.Destinations, destination => destination.Id == "video.films");
     }
