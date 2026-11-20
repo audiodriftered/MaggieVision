@@ -50,10 +50,11 @@ public sealed class NavigationControllerTests
     [Fact] public void CustomDestinationsShareTheFlatListAndRequireUniqueTypedTargets()
     {
         var navigation = new NavigationController();
-        var custom = new NavigationDestination("video.documentaries", "Documentaries", "Video", DestinationKind.SavedFilter, "filter-42", MediaModule.Video);
+        var custom = new NavigationDestination("video.documentaries", "Documentaries", "Video", DestinationKind.SavedFilter, "filter-42", MediaModule.Video, InsertAt: 2);
         Assert.True(navigation.AddCustomDestination(custom));
         Assert.Equal("video.films", navigation.Destinations[1].Id);
-        Assert.Equal(custom, navigation.Destinations[^1]);
+        Assert.Equal(custom, navigation.Destinations[2]); // No separate "My Sections" group.
+        Assert.Equal("video.tv", navigation.Destinations[3].Id);
         Assert.False(navigation.AddCustomDestination(custom));
         Assert.False(navigation.AddCustomDestination(custom with { Id = "video.invalid", TargetId = null }));
         navigation.SwitchModule(MediaModule.Music);
