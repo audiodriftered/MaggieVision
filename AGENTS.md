@@ -11,6 +11,18 @@
 9. Report in every development change: source version/commit, files changed, commands run, tests pass/fail, actual device validation and limitations.
 10. Do not turn future modules (RSS Podcasts, MaggieReads, Pictures) into Music/Video 1.0 launch gates without a new approved decision.
 
+## Immutable product-specification rule — DEC-2026-11-20-006
+
+**ALL functionality, not only UI.** The Founder-approved Product Bible v2.2, 20 November UI addendum, approved decisions and explicitly accepted reference assets constrain every feature and platform. Neither Codex, VCTO nor a subagent may invent, remove, weaken, substitute, rearrange or silently postpone agreed functionality, appearance, navigation, behaviour, media handling, account/security, pricing, supported devices or launch scope. A framework default, convenient implementation, prototype label or green build does not override approved behaviour.
+
+**Before implementation:** read the *applicable* approved clauses; record the exact requirement/decision IDs, expected observable behaviour, permitted files, exclusions and a pass/fail scenario. Do not rely on a vague summary. If the approved specification is silent or conflicting about a user-visible choice, **flag it as OPEN and do not invent a resolution**. Internal engineering choices are delegated only if they do not alter observable behaviour, commitments or security boundaries. A missing feature is explicitly NOT IMPLEMENTED, not an implied scope change.
+
+**At PR submission:** provide a concise `requirement → implementation → independent evidence` mapping, relevant adjacent-regression checks and an explicit declaration of `Specification change: NONE` or `PROPOSED / NOT IMPLEMENTED`. For changed UI, include actual running-app screenshots and demonstrated navigation/interactions compared side-by-side with accepted reference(s); for changed non-UI functionality, show real behaviour, negative/error-path and integrity evidence. Passing unit tests, compiling and a visually plausible screenshot are insufficient alone.
+
+**Before merge:** VCTO reviews original requirements and actual changes/evidence, explicitly accepts or rejects conformity, and rejects undocumented deviations even if all CI jobs are green. When a user-facing structure or interaction is materially changed, get Founder's approval of the actual result before merging; Founder should not need to click GitHub's merge button. Codex implements product code; VCTO reviews and may maintain docs, **never edits app code to fix Codex's work**. No autonomous specification changes, including by the VCTO. Genuine scope changes need a separate Founder-approved decision, recorded BEFORE implementation.
+
+**Enforcement reality:** These instructions are behavioural requirements, not proven sandbox or GitHub protection. SEC-02 still needs credential separation and hard protections. Never claim these rules alone technically prevent unauthorised writes.
+
 ## Security and review rules (20 November Claude reconciliation)
 
 - The Founder alone approves business scope, release go/no-go, exceptions touching original media/ACLs, external spend (default **£0**), standing Routine merge delegation and release approval.
