@@ -18,7 +18,19 @@
 2. Protect `contracts/`, `tests/conformance/`, `.github/`, `AGENTS.md`, governing product docs and any security fixtures from the implementation agent. An implementation agent may write its own unit tests. Conformance tests are authored in a separate session/review and cannot be changed to make a failing build pass.
 3. Default Codex sandbox: no external network, minimum permissions, task-specific path write allowlist, fixtures mounted read-only. Explicitly grant only needed exceptions; secrets are not copied to chat or test logs.
 4. One writer at a time on identity/crypto, API contract, database migrations and player core. No Codex self-merges, paid service signups, app-store actions, key creation, public release or expenditure.
-5. CI eventually runs independent conformance, source hashes/mtime/path/**ACL checks**, secret scans, pinned dependency/license review, and checks that tests/skips are not silently weakened. **Current GitHub CI is documentation-only** until a clean greenfield build is added and verified.
+5. CI eventually runs independent conformance, source hashes/mtime/path/**ACL checks**, secret scans, pinned dependency/license review, and checks that tests/skips are not silently weakened. **Hosted .NET Windows host and Windows UI build/test CI are now active.** Neither proves specification fidelity, actual visual acceptance, nor repository permission enforcement.
+
+## Specification conformity gate — DEC-2026-11-20-006
+
+**All product functionality is locked to approved source decisions.** The Founder did **not** delegate feature or UX design to Codex or VCTO. No spontaneous additions, substitutions, simplifications, omissions, deferrals, altered defaults, or scope changes. Previously agreed features remain planned even when a bounded slice does not implement them. The Product Bible, UI addendum, approved decision ledger and explicitly accepted visual references govern over task shorthand or framework defaults.
+
+**A bounded assignment must contain:** exact approved requirement/decision IDs; expected observable behaviour; exclusions and writable paths; one or more objective pass/fail examples, including negative behaviour where appropriate. An unresolved user-visible design choice is OPEN, not Codex's choice. The VCTO must not fill it with assumptions.
+
+**Every PR must contain:** a compact `requirement → code → proof` mapping; an explicit `specification delta: NONE` (or separately proposed, NOT IMPLEMENTED); real evidence for changed behaviour; and adjacent regression checks. UI changes require the running native binary/screenshots plus interaction checks measured against accepted screenshots/layouts; non-UI changes require functional and negative tests, and data/source integrity checks where relevant. Missing features are labelled NOT IMPLEMENTED. CI alone never establishes product-spec correctness.
+
+**VCTO's pre-merge responsibility:** actually read the approved source, inspect the diff and the observed result, reject mismatches, and leave changes unmerged if observable requirements are unverified. Material visual structure or user workflow changes must be accepted by Founder from the actual result before the authorised maintainer merges. Existing Routine merge delegation removes mechanical clicks, **not** design approval. Codex writes code, VCTO does not. Privileged boundaries retain their separate controls.
+
+**Current enforcement limitation:** Codex has operated with a GitHub admin identity and repository restrictions remain unverified. These review rules improve decision control but do not constitute proven technical enforcement; SEC-02 remains open.
 
 ## Lightweight work loop
 
