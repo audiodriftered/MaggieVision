@@ -1,0 +1,41 @@
+name: .NET 10 Windows host CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Restore, build and test host
+    runs-on: windows-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install SDK pinned by the host
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: src/host/global.json
+
+      - name: Show installed SDK
+        working-directory: src/host
+        run: dotnet --info
+
+      - name: Restore locked dependencies
+        working-directory: src/host
+        run: dotnet restore .\MaggieVision.Host.sln --locked-mode
+
+      - name: Build Release with warnings as errors
+        working-directory: src/host
+        run: dotnet build .\MaggieVision.Host.sln --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+
+      - name: Run unit tests
+        working-directory: src/host
+        run: dotnet test .\MaggieVision.Host.sln --configuration Release --no-build --no-restore --logger "console;verbosity=normal"
