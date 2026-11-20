@@ -1,1 +1,22 @@
-<Page x:Class="MaggieVision_Windows.MainPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"><Grid x:Name="RootGrid" /></Page>
+<Page
+    x:Class="MaggieVision_Windows.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{ThemeResource ProvisionalShellBrush}"
+    SizeChanged="OnMainPageSizeChanged">
+    <NavigationView
+        x:Name="ShellNavigation"
+        PaneDisplayMode="Left"
+        OpenPaneLength="300"
+        CompactPaneLength="64"
+        IsPaneOpen="True"
+        IsPaneToggleButtonVisible="False"
+        IsSettingsVisible="True"
+        IsBackButtonVisible="Collapsed"
+        Background="{ThemeResource ProvisionalShellBrush}"
+        SelectionChanged="OnNavigationSelectionChanged">
+        <NavigationView.Content>
+            <Grid x:Name="PageHost" Background="{ThemeResource ProvisionalShellBrush}" />
+        </NavigationView.Content>
+    </NavigationView>
+</Page>
