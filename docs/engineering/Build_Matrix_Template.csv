@@ -1,1 +1,1 @@
-component,candidate_version,source_archive,source_sha256,platform,toolchain,build_command,build_result,test_command,test_result,device_evidence,notes
+component,source_commit,platform,sdk_version,build_command,build_result,test_command,test_result,fixture_id,log_reference,review_status,notes

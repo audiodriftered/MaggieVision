@@ -6,7 +6,7 @@ required = [
     "docs/product/MaggieVision_Product_Bible_v2.2_2026-11-20.md",
     "docs/decisions/MaggieVision_UI_Addendum_2026-11-20.md",
     "docs/engineering/MaggieVision_WP00_Execution_Brief_2026-11-20.md",
-    "docs/engineering/Prototype_Recovery_Register.md",
+    "docs/decisions/DEC-2026-11-20-002_Greenfield_Production_Build.md",
     "docs/engineering/Engineering_Delivery_and_Governance_2026-11-20.md",
     "docs/architecture/Architecture_Review_Decisions_2026-11-20.md",
     "docs/decisions/DEC-2026-11-20-001_Anywhere_Independent_Release.md",

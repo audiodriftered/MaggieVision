@@ -13,9 +13,7 @@ google-services.json
 GoogleService-Info.plist
 secrets.json
 local.properties
-# Prototype imports / generated reports (keep local, not source control)
-/recovery/incoming/
-/recovery/reports/
+# Historical archives and generated reports: never commit
 *.zip
 *.7z
 *.rar
